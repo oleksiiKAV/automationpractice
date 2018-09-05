@@ -10,31 +10,32 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.testng.Assert.assertEquals;
 
 public class LoginTests extends BaseTest {
 
-    @Test(dataProvider = "authProvider", enabled = false)
-    public void testAuthCorrect(String email, String password) throws Exception {
+    @Test(dataProvider = "authProvider")
+    public void testAuthCorrect(String email, String password, String expectedLinkText) throws Exception {
         System.out.println("Start 'testAuthCorrect'");
 
+        manager.goTo().home();
         AccountPage accountPage =
-                new HomePage(driver)
+                new HomePage(manager.getDriver())
                         .clickSingIn()
                         .inputEmail(email)
                         .inputPassword(password)
                         .clickSingIn();
 
         String userNameLinkText = accountPage.getUserNameLinkText();
-        assertEquals(userNameLinkText, "Oleg Afanasiev");
+        assertEquals(userNameLinkText, expectedLinkText);
         accountPage.clickSignOut();
 
         System.out.println("Complete 'testAuthCorrect'");
     }
 
     @Test(dataProvider = "incorrectLoginProvider")
+    // TODO
     public void testAuthIncorrect(String email, String password, String errorMsg) {
         System.out.println("Start 'testAuthIncorrect'");
         System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsg));
@@ -44,7 +45,7 @@ public class LoginTests extends BaseTest {
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password")}
+                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"), "Oleg Afanasiev"}
         };
     }
 
