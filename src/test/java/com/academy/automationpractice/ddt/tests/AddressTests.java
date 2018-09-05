@@ -33,8 +33,8 @@ public class AddressTests extends BaseTest {
         manager.address().create(address);
 
         // verify
+        assertThat(manager.address().count(), equalTo(before.size()+1));
         Addresses after = manager.address().all();
-        assertThat(after.size(), equalTo(before.size()+1));
         assertThat(after, equalTo(before.withAdded(address.withUpperCaseAlias())));
 
         System.out.println("complete 'testAddAddress'");

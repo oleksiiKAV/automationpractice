@@ -70,6 +70,10 @@ public class AddressHelper {
         fillForm(address);
         submit();
     }
+    public int count() {
+        return new AddressPage(driver).countAddresses();
+    }
+
 
     private AddressPage submit() {
         return new FormAddressPage(driver)

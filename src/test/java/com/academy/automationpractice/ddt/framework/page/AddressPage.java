@@ -44,6 +44,9 @@ public class AddressPage extends BasePage {
     @FindBy(css="#center_column > div.clearfix.main-page-indent > a")
     private WebElement addNewAddressButton;
 
+    @FindBy(xpath = "//*[@id='center_column']/div[1]/div[contains(@class,'bloc_adresses')]/div[contains(@class,'address')]")
+    private List<WebElement> blockAddresses;
+
     private String deleteAddressByAliasXPath = "//div[@id='center_column']/div[@class='addresses']//ul[li/h3[text()='%s']]//li[last()]/a[2]";
 
     public AddressPage(WebDriver driver) {
@@ -115,5 +118,9 @@ public class AddressPage extends BasePage {
     public FormAddressPage clickByAddNewAddress() {
         addNewAddressButton.click();
         return new FormAddressPage(driver);
+    }
+
+    public int countAddresses() {
+        return blockAddresses.size();
     }
 }
