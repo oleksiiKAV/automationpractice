@@ -104,6 +104,11 @@ public class AddressData {
         return this;
     }
 
+    public AddressData withUpperCaseAlias() {
+        this.addressAlias = this.addressAlias.toUpperCase();
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

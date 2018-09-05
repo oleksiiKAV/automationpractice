@@ -1,6 +1,7 @@
 package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
+import com.academy.automationpractice.ddt.framework.model.Addresses;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -25,14 +26,13 @@ public class AddressTests extends BaseTest {
             manager.address().remove(address.getAlias());
         }
 
-        Set<AddressData> before = manager.address().all();
+        Addresses before = manager.address().all();
         manager.address().create(address);
 
         // verify
-        Set<AddressData> after = manager.address().all();
+        Addresses after = manager.address().all();
         Assert.assertEquals(after.size(), before.size()+1);
-        before.add(address.withAddressAlias(address.getAlias().toUpperCase()));
-        Assert.assertEquals(after, before);
+        Assert.assertEquals(after, before.withAdded(address.withUpperCaseAlias()));
 
         System.out.println("complete 'testAddAddress'");
     }

@@ -1,6 +1,7 @@
 package com.academy.automationpractice.ddt.framework.helper;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
+import com.academy.automationpractice.ddt.framework.model.Addresses;
 import com.academy.automationpractice.ddt.framework.page.AddressPage;
 import org.openqa.selenium.WebDriver;
 
@@ -28,9 +29,9 @@ public class AddressHelper {
                 .acceptDeletion();
     }
 
-    public Set<AddressData> all() {
+    public Addresses all() {
 
-        Set<AddressData> addressList  = new HashSet<>();
+        Addresses addressList  = new Addresses();
 
         List<String> firstNames = new AddressPage(driver).getFirstNameList();
         List<String> lastNames = new AddressPage(driver).getLastNameList();
