@@ -42,7 +42,7 @@ public class BasePage {
         return textList;
     }
 
-    public boolean waitForJSandJQueryToLoad() {
+    protected boolean waitForJSandJQueryToLoad() {
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
 
@@ -62,5 +62,16 @@ public class BasePage {
                 .toString().equals("complete");
 
         return wait.until(jQueryLoad) && wait.until(jsLoad);
+    }
+
+    protected  void alertAccept(boolean accept) {
+        try {
+            if (accept)
+                driver.switchTo().alert().accept();
+            else
+                driver.switchTo().alert().dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
