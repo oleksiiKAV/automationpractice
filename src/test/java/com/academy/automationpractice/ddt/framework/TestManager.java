@@ -1,9 +1,6 @@
 package com.academy.automationpractice.ddt.framework;
 
-import com.academy.automationpractice.ddt.framework.helper.AccountHelper;
-import com.academy.automationpractice.ddt.framework.helper.NavigationHelper;
-import com.academy.automationpractice.ddt.framework.helper.SessionHelper;
-import com.academy.automationpractice.ddt.framework.helper.VerifyHelper;
+import com.academy.automationpractice.ddt.framework.helper.*;
 import com.academy.automationpractice.ddt.util.PropertyManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,6 +17,7 @@ public class TestManager {
     private SessionHelper sessionHelper;
     private AccountHelper accountHelper;
     private VerifyHelper verifyHelper;
+    private AddressHelper addressHelper;
 
     public void init(String browser) throws IOException {
 
@@ -40,6 +38,7 @@ public class TestManager {
         navigationHelper = new NavigationHelper(driver, PropertyManager.getProperty("automation.baseurl"));
         sessionHelper = new SessionHelper(driver, PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"));
         accountHelper = new AccountHelper(driver);
+        addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
     }
 
@@ -61,5 +60,9 @@ public class TestManager {
 
     public VerifyHelper verify() {
         return verifyHelper;
+    }
+
+    public AddressHelper address() {
+        return addressHelper;
     }
 }

@@ -26,6 +26,10 @@ public class AddressTests extends BaseTest {
         manager.session().login();
         manager.goTo().address();
 
+        if (manager.address().isPresentAlias(addressData.getAlias())) {
+            manager.address().removeAddress(addressData.getAlias());
+        }
+
         System.out.println("complete 'testAddAddress'");
     }
 }
