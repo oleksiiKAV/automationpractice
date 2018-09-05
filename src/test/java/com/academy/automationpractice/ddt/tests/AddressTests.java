@@ -9,6 +9,9 @@ import org.testng.annotations.Test;
 
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class AddressTests extends BaseTest {
 
     @BeforeMethod
@@ -31,8 +34,8 @@ public class AddressTests extends BaseTest {
 
         // verify
         Addresses after = manager.address().all();
-        Assert.assertEquals(after.size(), before.size()+1);
-        Assert.assertEquals(after, before.withAdded(address.withUpperCaseAlias()));
+        assertThat(after.size(), equalTo(before.size()+1));
+        assertThat(after, equalTo(before.withAdded(address.withUpperCaseAlias())));
 
         System.out.println("complete 'testAddAddress'");
     }
