@@ -1,7 +1,5 @@
 package com.academy.automationpractice.ddt.tests;
 
-import com.academy.automationpractice.ddt.framework.page.AccountPage;
-import com.academy.automationpractice.ddt.framework.page.HomePage;
 import com.academy.automationpractice.ddt.util.PropertyManager;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -10,9 +8,10 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import static org.testng.Assert.assertEquals;
+import java.io.IOException;
 
 public class LoginTests extends BaseTest {
 
@@ -24,7 +23,7 @@ public class LoginTests extends BaseTest {
         manager.session().login();
 
         String userNameActual = manager.account().getUserName();
-        Assert.assertEquals(userNameActual, userNameExpected);
+        assertThat(userNameActual, equalTo(userNameExpected));
         manager.session().logout();
 
         System.out.println("Complete 'testAuthCorrect'");
