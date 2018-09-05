@@ -4,6 +4,7 @@ import com.academy.automationpractice.ddt.framework.model.AddressData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class AddressTests extends BaseTest {
@@ -40,8 +41,8 @@ public class AddressTests extends BaseTest {
         // verify
         List<AddressData> afterListAddr = manager.address().getAddresses();
         Assert.assertEquals(afterListAddr.size(), beforeListAddr.size()+1);
-        beforeListAddr.add(addressData);
-        Assert.assertEquals(beforeListAddr, afterListAddr);
+        beforeListAddr.add(addressData.withAddressAlias(addressData.getAlias().toUpperCase()));
+        Assert.assertEquals(new HashSet<>(beforeListAddr), new HashSet<>(afterListAddr));
 
         System.out.println("complete 'testAddAddress'");
     }
