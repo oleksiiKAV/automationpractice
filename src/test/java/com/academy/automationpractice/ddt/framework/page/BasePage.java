@@ -19,10 +19,12 @@ public class BasePage {
         this.driver = driver;
     }
 
-    protected void inputTextField(WebElement field, String value) {
-        field.click();
-        field.clear();
-        field.sendKeys(value);
+    protected void inputTextField(WebElement element, String value) {
+        if (value != null) {
+            element.click();
+            element.clear();
+            element.sendKeys(value);
+        }
     }
 
     protected void selectByText(WebElement sortBySelect, String text) {
