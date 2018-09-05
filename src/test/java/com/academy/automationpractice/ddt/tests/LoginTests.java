@@ -36,7 +36,9 @@ public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "incorrectLoginProvider")
     public void testAuthIncorrect(String email, String password, String errorMsg) {
+        System.out.println("Start 'testAuthIncorrect'");
         System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsg));
+        System.out.println("Complete 'testAuthIncorrect'");
     }
 
     @DataProvider(name="authProvider")
@@ -66,7 +68,6 @@ public class LoginTests extends BaseTest {
                 data[r-1][2] = errMsg;
             }
 
-            Arrays.stream(data).flatMap(Arrays::stream).forEach(System.out::println);
             return data;
 
         } catch (IOException e) {
