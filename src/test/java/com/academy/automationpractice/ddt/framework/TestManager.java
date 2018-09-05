@@ -1,25 +1,25 @@
 package com.academy.automationpractice.ddt.framework;
 
+import com.academy.automationpractice.ddt.framework.helper.AccountHelper;
 import com.academy.automationpractice.ddt.framework.helper.NavigationHelper;
+import com.academy.automationpractice.ddt.framework.helper.SessionHelper;
 import com.academy.automationpractice.ddt.util.PropertyManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class TestManager {
     private static int DEFAULT_WAIT = 30;
     protected WebDriver driver;
-    protected String baseUrl;
 
     private NavigationHelper navigationHelper;
+    private SessionHelper sessionHelper;
+    private AccountHelper accountHelper;
 
     public void init(String browser) throws IOException {
-        baseUrl = PropertyManager.getProperty("automation.baseurl");
 
         switch (browser) {
             case "chrome":
@@ -35,7 +35,9 @@ public class TestManager {
 
         driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
         //        driver.manage().window().maximize();
-        navigationHelper = new NavigationHelper(driver, baseUrl);
+        navigationHelper = new NavigationHelper(driver, PropertyManager.getProperty("automation.baseurl"));
+        sessionHelper = new SessionHelper(driver, PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"));
+        accountHelper = new AccountHelper(driver);
     }
 
     public void stop() {
@@ -46,7 +48,11 @@ public class TestManager {
         return navigationHelper;
     }
 
-    public WebDriver getDriver() {
-        return driver;
+    public SessionHelper session() {
+        return sessionHelper;
+    }
+
+    public AccountHelper account() {
+        return accountHelper;
     }
 }

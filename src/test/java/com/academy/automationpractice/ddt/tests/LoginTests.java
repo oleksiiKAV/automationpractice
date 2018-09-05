@@ -6,6 +6,7 @@ import com.academy.automationpractice.ddt.util.PropertyManager;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -16,20 +17,15 @@ import static org.testng.Assert.assertEquals;
 public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "authProvider")
-    public void testAuthCorrect(String email, String password, String expectedLinkText) throws Exception {
+    public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
         System.out.println("Start 'testAuthCorrect'");
 
         manager.goTo().home();
-        AccountPage accountPage =
-                new HomePage(manager.getDriver())
-                        .clickSingIn()
-                        .inputEmail(email)
-                        .inputPassword(password)
-                        .clickSingIn();
+        manager.session().login();
 
-        String userNameLinkText = accountPage.getUserNameLinkText();
-        assertEquals(userNameLinkText, expectedLinkText);
-        accountPage.clickSignOut();
+        String userNameActual = manager.account().getUserName();
+        Assert.assertEquals(userNameActual, userNameExpected);
+        manager.session().logout();
 
         System.out.println("Complete 'testAuthCorrect'");
     }

@@ -14,6 +14,9 @@ public class LoginPage  extends BasePage {
     @FindBy(id = "SubmitLogin")
     private WebElement singInButton;
 
+    @FindBy(css="#center_column > div.alert.alert-danger > ol > li")
+    private WebElement authMessageBlock;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -28,8 +31,15 @@ public class LoginPage  extends BasePage {
         return this;
     }
 
-    public AccountPage clickSingIn() {
+    public BasePage clickSignIn(boolean success) {
         singInButton.click();
-        return new AccountPage(driver);
+        if (success)
+            return new AccountPage(driver);
+        else
+            return this;
+    }
+
+    public String getErrorMessage() {
+        return authMessageBlock.getText().trim();
     }
 }
