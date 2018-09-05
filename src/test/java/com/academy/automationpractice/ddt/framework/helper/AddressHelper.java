@@ -5,13 +5,12 @@ import com.academy.automationpractice.ddt.framework.model.Addresses;
 import com.academy.automationpractice.ddt.framework.page.AddressPage;
 import org.openqa.selenium.WebDriver;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class AddressHelper {
 
     private WebDriver driver;
+    private Addresses addressesCache = null;
 
     public AddressHelper(WebDriver driver) {
         this.driver = driver;
@@ -24,14 +23,17 @@ public class AddressHelper {
     }
 
     public void remove(String alias) {
+        addressesCache = null;
         new AddressPage(driver)
                 .clickDeleteButton(alias)
                 .acceptDeletion();
     }
 
     public Addresses all() {
+        if (addressesCache != null)
+            return addressesCache;
 
-        Addresses addressList  = new Addresses();
+        addressesCache  = new Addresses();
 
         List<String> firstNames = new AddressPage(driver).getFirstNameList();
         List<String> lastNames = new AddressPage(driver).getLastNameList();
@@ -45,7 +47,7 @@ public class AddressHelper {
         List<String> addressAliases = new AddressPage(driver).getAddressAliasList();
 
         for (int i = 0; i < addressAliases.size(); i++) {
-            addressList.add(new AddressData()
+            addressesCache.add(new AddressData()
                     .withFirstName(firstNames.get(i))
                     .withLastName(lastNames.get(i))
                     .withAddress(addresses.get(i))
@@ -59,10 +61,11 @@ public class AddressHelper {
             );
         }
 
-        return addressList;
+        return addressesCache;
     }
 
     public void create(AddressData address) {
+        addressesCache = null;
         initCreation();
         fillForm(address);
         submit();
