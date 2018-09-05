@@ -1,7 +1,10 @@
 package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 public class AddressTests extends BaseTest {
 
@@ -29,6 +32,16 @@ public class AddressTests extends BaseTest {
         if (manager.address().isPresentAlias(addressData.getAlias())) {
             manager.address().removeAddress(addressData.getAlias());
         }
+
+        List<AddressData> beforeListAddr = manager.address().getAddresses();
+
+        manager.address().create(addressData);
+
+        // verify
+        List<AddressData> afterListAddr = manager.address().getAddresses();
+        Assert.assertEquals(afterListAddr.size(), beforeListAddr.size()+1);
+        beforeListAddr.add(addressData);
+        Assert.assertEquals(beforeListAddr, afterListAddr);
 
         System.out.println("complete 'testAddAddress'");
     }
