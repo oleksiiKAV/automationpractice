@@ -4,12 +4,8 @@ import com.academy.automationpractice.ddt.util.PropertyManager;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 
@@ -22,8 +18,7 @@ public class LoginTests extends BaseTest {
         manager.goTo().home();
         manager.session().login();
 
-        String userNameActual = manager.account().getUserName();
-        assertThat(userNameActual, equalTo(userNameExpected));
+        manager.verify().userIsLoggedIn(userNameExpected);
         manager.session().logout();
 
         System.out.println("Complete 'testAuthCorrect'");
