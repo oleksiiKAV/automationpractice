@@ -1,5 +1,6 @@
 package com.academy.automationpractice.ddt.framework.helper;
 
+import com.academy.automationpractice.ddt.framework.page.AccountPage;
 import org.openqa.selenium.WebDriver;
 
 public class NavigationHelper {
@@ -13,5 +14,10 @@ public class NavigationHelper {
 
     public void home() {
         driver.get(baseUrl);
+    }
+
+    public void address() {
+        new AccountPage(driver)
+                .clickAddress();
     }
 }

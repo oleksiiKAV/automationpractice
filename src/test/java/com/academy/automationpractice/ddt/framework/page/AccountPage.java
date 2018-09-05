@@ -17,6 +17,9 @@ public class AccountPage extends BasePage {
     @FindBy(css="#header > div.nav > div > div > nav > div:nth-child(2) > a")
     private WebElement logoutLink;
 
+    @FindBy(css="#center_column > div > div:nth-child(1) > ul > li:nth-child(3) > a")
+    private WebElement myAddressLink;
+
     public AccountPage(WebDriver driver) {
         super(driver);
     }
@@ -37,5 +40,10 @@ public class AccountPage extends BasePage {
     public HomePage clickLogout() {
         logoutLink.click();
         return new HomePage(driver);
+    }
+
+    public AddressPage clickAddress() {
+        myAddressLink.click();
+        return new AddressPage(driver);
     }
 }
