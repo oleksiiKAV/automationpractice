@@ -2,6 +2,7 @@ package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -10,27 +11,29 @@ import java.util.List;
 
 public class AddressTests extends BaseTest {
 
-    @Test(dataProvider = "creationAddress")
-    public void testAddAddress( AddressData addressData) {
-        System.out.println("start 'testAddAddress'");
-
+    @BeforeMethod
+    public void prepare() {
         manager.goTo().home();
         manager.session().login();
         manager.goTo().address();
+    }
 
-        if (manager.address().isPresentAlias(addressData.getAlias())) {
-            manager.address().removeAddress(addressData.getAlias());
+    @Test(dataProvider = "creationAddress")
+    public void testAddAddress( AddressData address) {
+        System.out.println("start 'testAddAddress'");
+
+        if (manager.address().isPresentAlias(address.getAlias())) {
+            manager.address().remove(address.getAlias());
         }
 
-        List<AddressData> beforeListAddr = manager.address().getAddresses();
-
-        manager.address().create(addressData);
+        List<AddressData> before = manager.address().all();
+        manager.address().create(address);
 
         // verify
-        List<AddressData> afterListAddr = manager.address().getAddresses();
-        Assert.assertEquals(afterListAddr.size(), beforeListAddr.size()+1);
-        beforeListAddr.add(addressData.withAddressAlias(addressData.getAlias().toUpperCase()));
-        Assert.assertEquals(new HashSet<>(beforeListAddr), new HashSet<>(afterListAddr));
+        List<AddressData> after = manager.address().all();
+        Assert.assertEquals(after.size(), before.size()+1);
+        before.add(address.withAddressAlias(address.getAlias().toUpperCase()));
+        Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
 
         System.out.println("complete 'testAddAddress'");
     }

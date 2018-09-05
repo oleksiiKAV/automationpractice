@@ -21,13 +21,13 @@ public class AddressHelper {
                 .contains(alias.toUpperCase());
     }
 
-    public void removeAddress(String alias) {
+    public void remove(String alias) {
         new AddressPage(driver)
                 .clickDeleteButton(alias)
                 .acceptDeletion();
     }
 
-    public List<AddressData> getAddresses() {
+    public List<AddressData> all() {
 
         List<AddressData> addressList  = new ArrayList<>();
 
