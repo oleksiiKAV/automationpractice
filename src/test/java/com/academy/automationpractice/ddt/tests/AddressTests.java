@@ -6,8 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 public class AddressTests extends BaseTest {
 
@@ -19,21 +18,21 @@ public class AddressTests extends BaseTest {
     }
 
     @Test(dataProvider = "creationAddress")
-    public void testAddAddress( AddressData address) {
+    public void testAddAddress(AddressData address) {
         System.out.println("start 'testAddAddress'");
 
         if (manager.address().isPresentAlias(address.getAlias())) {
             manager.address().remove(address.getAlias());
         }
 
-        List<AddressData> before = manager.address().all();
+        Set<AddressData> before = manager.address().all();
         manager.address().create(address);
 
         // verify
-        List<AddressData> after = manager.address().all();
+        Set<AddressData> after = manager.address().all();
         Assert.assertEquals(after.size(), before.size()+1);
         before.add(address.withAddressAlias(address.getAlias().toUpperCase()));
-        Assert.assertEquals(new HashSet<>(before), new HashSet<>(after));
+        Assert.assertEquals(after, before);
 
         System.out.println("complete 'testAddAddress'");
     }
@@ -51,7 +50,7 @@ public class AddressTests extends BaseTest {
                         .withCountry("United States")
                         .withHomePhone("+3809353613437")
                         .withMobilePhone("093234567")
-                        .withAddressAlias("addressRef")
+                        .withAddressAlias("addressAddedRef")
         };
     }
 }
