@@ -22,8 +22,11 @@ public class BasePage {
     protected void inputTextField(WebElement element, String value) {
         if (value != null) {
             element.click();
-            element.clear();
-            element.sendKeys(value);
+            String currentValue = element.getAttribute("value");
+            if (!value.equals(currentValue)) {
+                element.clear();
+                element.sendKeys(value);
+            }
         }
     }
 
