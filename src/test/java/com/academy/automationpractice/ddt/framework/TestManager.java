@@ -11,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 public class TestManager {
     private static int DEFAULT_WAIT = 30;
-    protected WebDriver driver;
+    private WebDriver driver;
 
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
     private AccountHelper accountHelper;
     private VerifyHelper verifyHelper;
     private AddressHelper addressHelper;
+    private WomenHelper womenHelper;
 
     public void init(String browser) throws IOException {
 
@@ -40,6 +41,7 @@ public class TestManager {
         accountHelper = new AccountHelper(driver);
         addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
+        womenHelper = new WomenHelper(driver);
     }
 
     public void stop() {
@@ -65,4 +67,6 @@ public class TestManager {
     public AddressHelper address() {
         return addressHelper;
     }
+
+    public  WomenHelper women(){return  womenHelper;}
 }
