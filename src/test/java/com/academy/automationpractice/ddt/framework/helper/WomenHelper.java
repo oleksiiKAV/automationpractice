@@ -15,7 +15,7 @@ public class WomenHelper {
         this.driver = driver;
     }
 
-    public void sortByLowerPrice(String sortBy){
+    public void sortByPrice(String sortBy){
          WomenPage womenPage =
                  new HomePage(driver)
                          .clickWomenPageLink()
