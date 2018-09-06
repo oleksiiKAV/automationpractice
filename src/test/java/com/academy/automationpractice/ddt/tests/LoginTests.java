@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class LoginTests extends BaseTest {
 
-    @Test(dataProvider = "authProvider", enabled = false)
+   @Test(dataProvider = "authProvider", enabled = false)
     public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
         System.out.println("Start 'testAuthCorrect'");
 
@@ -24,7 +24,7 @@ public class LoginTests extends BaseTest {
         System.out.println("Complete 'testAuthCorrect'");
     }
 
-    @Test(dataProvider = "incorrectLoginProvider", enabled = false)
+   @Test(dataProvider = "incorrectLoginProvider", enabled = false)
     // TODO
     public void testAuthIncorrect(String email, String password, String errorMsg) {
         System.out.println("Start 'testAuthIncorrect'");
