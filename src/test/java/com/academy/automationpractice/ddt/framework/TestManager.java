@@ -14,6 +14,7 @@ public class TestManager {
     protected WebDriver driver;
 
     private NavigationHelper navigationHelper;
+    private DressHelper dressHelper;
     private SessionHelper sessionHelper;
     private AccountHelper accountHelper;
     private VerifyHelper verifyHelper;
@@ -34,12 +35,13 @@ public class TestManager {
         }
 
         driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
-        //        driver.manage().window().maximize();
+                driver.manage().window().maximize();
         navigationHelper = new NavigationHelper(driver, PropertyManager.getProperty("automation.baseurl"));
         sessionHelper = new SessionHelper(driver, PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"));
         accountHelper = new AccountHelper(driver);
         addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
+        dressHelper = new DressHelper(driver);
     }
 
     public void stop() {
@@ -49,6 +51,18 @@ public class TestManager {
     public NavigationHelper goTo() {
         return navigationHelper;
     }
+
+    public DressHelper mark() {
+        System.out.println("Start mark");
+        return dressHelper;
+    }
+    public DressHelper verifyty() {
+        System.out.println("Start verifyty");
+        return dressHelper;
+    }
+
+
+
 
     public SessionHelper session() {
         return sessionHelper;
@@ -65,4 +79,7 @@ public class TestManager {
     public AddressHelper address() {
         return addressHelper;
     }
+
+
 }
+
