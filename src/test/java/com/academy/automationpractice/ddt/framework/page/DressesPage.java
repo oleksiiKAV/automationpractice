@@ -40,34 +40,42 @@ public class DressesPage extends BasePage{
 
     public DressesPage clickPink() {
         pink.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickGreen() {
         green.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickOrange() {
         orange.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickWhite() {
         white.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickYellow() {
         yellow.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickBlue() {
         blue.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickBlack() {
         black.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public DressesPage clickBeige() {
         beige.click();
+        waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
     public void check () {
