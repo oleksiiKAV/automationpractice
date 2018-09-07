@@ -1,17 +1,26 @@
 package com.academy.automationpractice.ddt.framework;
 
 import com.academy.automationpractice.ddt.framework.helper.*;
+import com.academy.automationpractice.ddt.tests.BaseTest;
 import com.academy.automationpractice.ddt.util.PropertyManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class TestManager {
+    protected static final Logger LOG = LogManager.getLogger(TestManager.class);
+
     private static int DEFAULT_WAIT = 30;
-    protected WebDriver driver;
+    protected EventFiringWebDriver driver;
 
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
@@ -24,15 +33,16 @@ public class TestManager {
         switch (browser) {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", PropertyManager.getProperty("chrome.driver"));
-                driver = new ChromeDriver();
+                driver = new EventFiringWebDriver(new ChromeDriver());
                 break;
 
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", PropertyManager.getProperty("firefox.driver"));
-                driver = new FirefoxDriver();
+                driver = new EventFiringWebDriver(new FirefoxDriver());
                 break;
         }
 
+        driver.register(new DetailWebDriverEventListener());
         driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
         //        driver.manage().window().maximize();
         navigationHelper = new NavigationHelper(driver, PropertyManager.getProperty("automation.baseurl"));
@@ -64,5 +74,23 @@ public class TestManager {
 
     public AddressHelper address() {
         return addressHelper;
+    }
+
+    class DetailWebDriverEventListener extends AbstractWebDriverEventListener {
+
+        @Override
+        public void beforeFindBy(By by, WebElement element, WebDriver driver) {
+            LOG.debug("Try find by {}", by);
+        }
+
+        @Override
+        public void afterFindBy(By by, WebElement element, WebDriver driver) {
+            LOG.debug("Found by {}", by);
+        }
+
+        @Override
+        public void onException(Throwable err, WebDriver driver) {
+            LOG.error("Error occurs: {}", err);
+        }
     }
 }
