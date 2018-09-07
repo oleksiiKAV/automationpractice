@@ -9,6 +9,9 @@ public class HomePage  extends BasePage {
     @FindBy(linkText = "Sign in")
     private WebElement signInLink;
 
+    @FindBy(css = "li.sfHoverForce a[title='Dresses']")
+    private  WebElement dressesLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -16,5 +19,10 @@ public class HomePage  extends BasePage {
     public LoginPage clickSignIn() {
         signInLink.click();
         return new LoginPage(driver);
+    }
+
+    public DressesPage clickDressesLink(){
+        dressesLink.click();
+        return new DressesPage(driver);
     }
 }

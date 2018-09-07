@@ -1,6 +1,7 @@
 package com.academy.automationpractice.ddt.framework.helper;
 
 import com.academy.automationpractice.ddt.framework.page.AccountPage;
+import com.academy.automationpractice.ddt.framework.page.HomePage;
 import org.openqa.selenium.WebDriver;
 
 public class NavigationHelper {
@@ -19,5 +20,10 @@ public class NavigationHelper {
     public void address() {
         new AccountPage(driver)
                 .clickAddress();
+    }
+
+    public void dresses(){
+        new HomePage(driver)
+                .clickDressesLink();
     }
 }

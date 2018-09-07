@@ -3,6 +3,7 @@ package com.academy.automationpractice.ddt.framework.helper;
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import com.academy.automationpractice.ddt.framework.model.Addresses;
 import com.academy.automationpractice.ddt.framework.page.AddressPage;
+import com.academy.automationpractice.ddt.framework.page.FormAddressPage;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -70,6 +71,13 @@ public class AddressHelper {
         fillForm(address);
         submit();
     }
+
+    public void modify(AddressData address){
+        initModifyAddress();
+        fillForm(address);
+        submit();
+    }
+
     public int count() {
         return new AddressPage(driver).countAddresses();
     }
@@ -97,5 +105,10 @@ public class AddressHelper {
     private void initCreation() {
         new AddressPage(driver)
                 .clickByAddNewAddress();
+    }
+
+    private void initModifyAddress(){
+        new AddressPage(driver)
+                .clickUpdateButton();
     }
 }
