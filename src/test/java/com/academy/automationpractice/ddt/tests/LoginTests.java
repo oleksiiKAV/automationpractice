@@ -1,6 +1,8 @@
 package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.util.PropertyManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -10,10 +12,11 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 public class LoginTests extends BaseTest {
+    protected static final Logger LOG = LogManager.getLogger(LoginTests.class);
 
-    @Test(dataProvider = "authProvider", enabled = false)
+    @Test(dataProvider = "authProvider")
     public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
-        System.out.println("Start 'testAuthCorrect'");
+        LOG.info("Start 'testAuthCorrect'");
 
         manager.goTo().home();
         manager.session().login();
@@ -21,7 +24,7 @@ public class LoginTests extends BaseTest {
         manager.verify().userIsLoggedIn(userNameExpected);
         manager.session().logout();
 
-        System.out.println("Complete 'testAuthCorrect'");
+        LOG.info("Complete 'testAuthCorrect'");
     }
 
     @Test(dataProvider = "incorrectLoginProvider", enabled = false)

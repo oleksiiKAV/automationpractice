@@ -21,7 +21,7 @@ public class AddressTests extends BaseTest {
         manager.goTo().address();
     }
 
-    @Test(dataProvider = "creationAddress")
+    @Test(dataProvider = "creationAddress", enabled = false)
     public void testAddAddress(AddressData address) {
         System.out.println("start 'testAddAddress'");
 
