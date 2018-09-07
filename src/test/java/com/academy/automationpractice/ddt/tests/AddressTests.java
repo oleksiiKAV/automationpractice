@@ -2,15 +2,13 @@ package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import com.academy.automationpractice.ddt.framework.model.Addresses;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Set;
-
+import static com.academy.automationpractice.ddt.util.MatcherAssertExt.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+
 
 public class AddressTests extends BaseTest {
 
@@ -21,7 +19,7 @@ public class AddressTests extends BaseTest {
         manager.goTo().address();
     }
 
-    @Test(dataProvider = "creationAddress", enabled = false)
+    @Test(dataProvider = "creationAddress")
     public void testAddAddress(AddressData address) {
         System.out.println("start 'testAddAddress'");
 
@@ -35,6 +33,7 @@ public class AddressTests extends BaseTest {
         // verify
         assertThat(manager.address().count(), equalTo(before.size()+1));
         Addresses after = manager.address().all();
+
         assertThat(after, equalTo(before.withAdded(address.withUpperCaseAlias())));
 
         System.out.println("complete 'testAddAddress'");
