@@ -3,6 +3,10 @@ package com.academy.automationpractice.ddt.framework;
 import com.academy.automationpractice.ddt.framework.helper.*;
 import com.academy.automationpractice.ddt.util.PropertyManager;
 import com.google.common.io.Files;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -26,6 +30,7 @@ public class TestManager {
 
     private static int DEFAULT_WAIT = 30;
     protected EventFiringWebDriver driver;
+    private BrowserMobProxy proxy;
 
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
@@ -38,11 +43,27 @@ public class TestManager {
         switch (browser) {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", PropertyManager.getProperty("chrome.driver"));
+
+                ChromeOptions options = new ChromeOptions();
+
+                // performance
                 LoggingPreferences logPrefs = new LoggingPreferences();
                 logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-                ChromeOptions options = new ChromeOptions();
                 options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+
+                // proxy
+                proxy = new BrowserMobProxyServer();
+                proxy.start(0);
+
+                // get the Selenium proxy object
+                Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+
+                // configure it as a desired capability
+                options.setCapability(CapabilityType.PROXY, seleniumProxy);
+
+                // start the browser up
                 driver = new EventFiringWebDriver(new ChromeDriver(options));
+                proxy.newHar("automation");
                 break;
 
             case "firefox":
@@ -62,6 +83,8 @@ public class TestManager {
     }
 
     public void stop() {
+        Har har = proxy.endHar();
+        har.getLog().getEntries().forEach(l->LOG.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
         driver.quit();
     }
 
