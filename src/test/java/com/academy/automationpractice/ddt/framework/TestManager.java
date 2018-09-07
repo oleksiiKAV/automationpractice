@@ -1,18 +1,17 @@
 package com.academy.automationpractice.ddt.framework;
 
 import com.academy.automationpractice.ddt.framework.helper.*;
-import com.academy.automationpractice.ddt.tests.BaseTest;
 import com.academy.automationpractice.ddt.util.PropertyManager;
+import com.google.common.io.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -91,6 +90,21 @@ public class TestManager {
         @Override
         public void onException(Throwable err, WebDriver driver) {
             LOG.error("Error occurs: {}", err);
+
+            makeScreenshot();
+        }
+
+        private void makeScreenshot() {
+            File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            String screenName = "screen_" + System.currentTimeMillis()+".png";
+            String screenPath = PropertyManager.getProperty("screenshots") + "/" + screenName;
+            File screen = new File(screenPath);
+            try {
+                Files.copy(tmp, screen);
+            } catch (IOException exc) {
+                LOG.error("Error copying screenshot from '{}' to '{}'. Details: {}",
+                        tmp, screen, exc);
+            }
         }
     }
 }
