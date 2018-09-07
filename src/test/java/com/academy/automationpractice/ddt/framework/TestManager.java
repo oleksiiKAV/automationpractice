@@ -7,13 +7,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
@@ -32,7 +38,11 @@ public class TestManager {
         switch (browser) {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", PropertyManager.getProperty("chrome.driver"));
-                driver = new EventFiringWebDriver(new ChromeDriver());
+                LoggingPreferences logPrefs = new LoggingPreferences();
+                logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+                ChromeOptions options = new ChromeOptions();
+                options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+                driver = new EventFiringWebDriver(new ChromeDriver(options));
                 break;
 
             case "firefox":
@@ -98,6 +108,7 @@ public class TestManager {
         public void afterNavigateTo(String url, WebDriver driver) {
             LOG.debug("Navigated to {}", url);
             driver.manage().logs().get("browser").forEach(LOG::debug);
+            driver.manage().logs().get("performance").forEach(LOG::debug);
         }
 
         private void makeScreenshot() {
