@@ -94,6 +94,12 @@ public class TestManager {
             makeScreenshot();
         }
 
+        @Override
+        public void afterNavigateTo(String url, WebDriver driver) {
+            LOG.debug("Navigated to {}", url);
+            driver.manage().logs().get("browser").forEach(LOG::debug);
+        }
+
         private void makeScreenshot() {
             File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String screenName = "screen_" + System.currentTimeMillis()+".png";
