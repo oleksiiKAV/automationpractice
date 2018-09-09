@@ -3,6 +3,7 @@ package com.academy.automationpractice.ddt.framework.helper;
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import com.academy.automationpractice.ddt.framework.model.Addresses;
 import com.academy.automationpractice.ddt.framework.page.AddressPage;
+import com.academy.automationpractice.ddt.framework.page.FormAddressPage;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
