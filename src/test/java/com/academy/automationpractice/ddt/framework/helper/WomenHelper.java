@@ -24,12 +24,7 @@ public class WomenHelper {
 
     }
     public void verifySort (String sortBy){
-        WomenPage womenPage =
-                new HomePage(driver)
-                        .clickWomenPageLink()
-                        .clicktoDressesLink()
-                        .clickToList()
-                        .sortProductBy(sortBy);
+        WomenPage womenPage = new WomenPage(driver);
         List<String> actualPrises =
                 womenPage
                         .listProduct();

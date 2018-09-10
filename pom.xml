@@ -34,6 +34,17 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+
         <!--Selenium + WebDriver-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -41,6 +52,7 @@
             <version>3.14.0</version>
             <scope>test</scope>
         </dependency>
+
 
         <!--Http proxy-->
         <dependency>
