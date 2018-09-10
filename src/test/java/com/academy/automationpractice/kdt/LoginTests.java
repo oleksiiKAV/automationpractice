@@ -2,6 +2,7 @@ package com.academy.automationpractice.kdt;
 
 import com.academy.automationpractice.ddt.tests.BaseTest;
 import com.academy.automationpractice.kdt.engine.*;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -10,27 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginTests extends BaseTest {
-    private KeywordIdentity baseKW;
-    private KeywordHomeIdentity homeKW;
-    private KeywordLoginIdentity loginKW;
-    private KeywordAccountIdentity accountKW;
+    private BaseKDTTest baseKDT;
 
-    @BeforeMethod
+    @BeforeClass
     public void setUpMethod() {
-        baseKW = new KeywordIdentity(manager.getDriver());
-        homeKW = new KeywordHomeIdentity(manager.getDriver());
-        loginKW = new KeywordLoginIdentity(manager.getDriver());
-        accountKW = new KeywordAccountIdentity(manager.getDriver());
+        baseKDT = new BaseKDTTest(manager.getDriver());
     }
 
     @Test(groups={"kdt"}, dataProvider = "kdtProvider")
     public void testIncorrectLogin(List<KeywordStep> steps) {
-        for (KeywordStep step : steps) {
-            LOG.info("page: {}, action: {}, obj: {}, value: {}",
-                    step.getPage(), step.getAction(), step.getObject(), step.getValue());
-
-            baseKW.doAction(step.getPage(), step.getAction(), step.getObject(), step.getValue());
-        }
+        baseKDT.kdtTest(steps);
     }
 
     @DataProvider(name="kdtProvider")

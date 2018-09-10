@@ -57,4 +57,14 @@ public class KeywordStep {
         this.value = value;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "KeywordStep{" +
+                "page='" + page + '\'' +
+                ", action='" + action + '\'' +
+                ", object='" + object + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }
