@@ -4,10 +4,10 @@ import com.academy.automationpractice.ddt.framework.page.AccountPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-public class KeywordMyAccountIdentity {
+public class KeywordAccountIdentity {
     private WebDriver driver;
 
-    public KeywordMyAccountIdentity(WebDriver driver) {
+    public KeywordAccountIdentity(WebDriver driver) {
         this.driver = driver;
     }
 

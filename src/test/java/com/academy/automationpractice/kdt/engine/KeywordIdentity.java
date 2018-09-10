@@ -7,13 +7,13 @@ public class KeywordIdentity {
     private WebDriver driver;
     private KeywordHomeIdentity homeAction;
     private KeywordLoginIdentity loginAction;
-    private KeywordMyAccountIdentity myAccountAction;
+    private KeywordAccountIdentity accountAction;
 
     public KeywordIdentity(WebDriver driver) {
         this.driver = driver;
         homeAction = new KeywordHomeIdentity(driver);
         loginAction = new KeywordLoginIdentity(driver);
-        myAccountAction = new KeywordMyAccountIdentity(driver);
+        accountAction = new KeywordAccountIdentity(driver);
     }
     // TODO
     public void doAction(String page, String action, String object, String value) {
@@ -26,8 +26,8 @@ public class KeywordIdentity {
                 loginAction.doAction(action, object, value);
                 break;
 
-            case "MyAccount":
-                myAccountAction.doAction(action, object, value);
+            case "account":
+                accountAction.doAction(action, object, value);
                 break;
 
             case "":
