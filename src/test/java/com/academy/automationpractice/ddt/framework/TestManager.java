@@ -108,6 +108,10 @@ public class TestManager {
         return addressHelper;
     }
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     class DetailWebDriverEventListener extends AbstractWebDriverEventListener {
 
         @Override
