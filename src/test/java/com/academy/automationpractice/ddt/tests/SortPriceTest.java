@@ -10,7 +10,9 @@ public class SortPriceTest extends BaseTest {
     @Test(dataProvider = "sortByLower")
     public void sortPriceToLowerFirstTest(String sortBy) throws Exception{
         manager.goTo().home();
+        manager.goTo().womenPage();
         manager.women().sortByPrice(sortBy);
+        manager.women().verifySort(sortBy);
 
     }
 

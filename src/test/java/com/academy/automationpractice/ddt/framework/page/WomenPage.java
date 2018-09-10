@@ -27,7 +27,7 @@ public class WomenPage extends BasePage {
         super(driver);
 
     }
-    public WomenPage selectDress(){
+    public WomenPage clicktoDressesLink(){
         clickDressesLink.click();
         return this;
     }
@@ -44,7 +44,7 @@ public class WomenPage extends BasePage {
         }
         return actualList;
     }
-    public WomenPage toList(){
+    public WomenPage clickToList(){
         clickToList.click();
         return this;
     }

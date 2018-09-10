@@ -16,12 +16,20 @@ public class WomenHelper {
     }
 
     public void sortByPrice(String sortBy){
-         WomenPage womenPage =
-                 new HomePage(driver)
+        new HomePage(driver)
                          .clickWomenPageLink()
-                         .selectDress()
-                         .toList()
+                         .clicktoDressesLink()
+                         .clickToList()
                          .sortProductBy(sortBy);
+
+    }
+    public void verifySort (String sortBy){
+        WomenPage womenPage =
+                new HomePage(driver)
+                        .clickWomenPageLink()
+                        .clicktoDressesLink()
+                        .clickToList()
+                        .sortProductBy(sortBy);
         List<String> actualPrises =
                 womenPage
                         .listProduct();

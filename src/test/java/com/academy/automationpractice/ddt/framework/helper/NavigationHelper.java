@@ -21,7 +21,7 @@ public class NavigationHelper {
         new AccountPage(driver)
                 .clickAddress();
     }
-    public void women (){
+    public void womenPage (){
         new HomePage(driver)
                 .clickWomenPageLink();
     }
