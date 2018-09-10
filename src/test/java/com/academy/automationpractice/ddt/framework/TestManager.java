@@ -16,7 +16,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
@@ -48,23 +47,28 @@ public class TestManager {
                 ChromeOptions options = new ChromeOptions();
 
                 // performance
-                LoggingPreferences logPrefs = new LoggingPreferences();
-                logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
-                options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+                if (PropertyManager.getBooleanProperty("log.performance")) {
+                    LoggingPreferences logPrefs = new LoggingPreferences();
+                    logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+                    options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+                }
 
                 // proxy
-                proxy = new BrowserMobProxyServer();
-                proxy.start(0);
+                if (PropertyManager.getBooleanProperty("log.proxy")) {
+                    proxy = new BrowserMobProxyServer();
+                    proxy.start(0);
 
-                // get the Selenium proxy object
-                Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+                    // get the Selenium proxy object
+                    Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
 
-                // configure it as a desired capability
-                options.setCapability(CapabilityType.PROXY, seleniumProxy);
+                    // configure it as a desired capability
+                    options.setCapability(CapabilityType.PROXY, seleniumProxy);
+                    proxy.newHar("automation");
+                }
 
                 // start the browser up
                 driver = new EventFiringWebDriver(new ChromeDriver(options));
-                proxy.newHar("automation");
+
                 break;
 
             case "firefox":
@@ -85,8 +89,10 @@ public class TestManager {
     }
 
     public void stop() {
-        Har har = proxy.endHar();
-        har.getLog().getEntries().forEach(l->LOG.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
+        if (PropertyManager.getBooleanProperty("log.proxy")) {
+            Har har = proxy.endHar();
+            har.getLog().getEntries().forEach(l -> LOG.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
+        }
         driver.quit();
     }
 
@@ -112,6 +118,10 @@ public class TestManager {
 
     public  WomenHelper women(){return  womenHelper;}
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     class DetailWebDriverEventListener extends AbstractWebDriverEventListener {
 
         @Override
@@ -134,8 +144,12 @@ public class TestManager {
         @Override
         public void afterNavigateTo(String url, WebDriver driver) {
             LOG.debug("Navigated to {}", url);
-            driver.manage().logs().get("browser").forEach(LOG::debug);
-            driver.manage().logs().get("performance").forEach(LOG::debug);
+
+            if (PropertyManager.getBooleanProperty("log.browser"))
+                driver.manage().logs().get("browser").forEach(LOG::debug);
+
+            if (PropertyManager.getBooleanProperty("log.performance"))
+                driver.manage().logs().get("performance").forEach(LOG::debug);
         }
 
         private void makeScreenshot() {
