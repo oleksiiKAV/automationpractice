@@ -37,4 +37,8 @@ public class PropertyManager {
     public static String getProperty(String key) {
         return getInstance().properties.getProperty(key);
     }
+
+    public static Boolean getBooleanProperty(String key) {
+        return Boolean.parseBoolean(getProperty(key));
+    }
 }
