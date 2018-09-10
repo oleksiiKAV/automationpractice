@@ -7,7 +7,7 @@
         <parameter name="browser" value="chrome" />
         <packages>
             <!--Запускаем все тесты из пакета 'com.academy.tests.*'-->
-            <package name="com.academy.automationpractice.kdt.*" />
+            <package name="com.academy.automationpractice.bdd.*" />
         </packages>
     </test>
 </suite>
