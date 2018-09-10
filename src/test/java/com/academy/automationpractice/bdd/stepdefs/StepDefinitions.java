@@ -70,8 +70,48 @@ public class StepDefinitions {
                 .clickLogout();
     }
 
+    @Given("^Я нахожусь на домашней странице$")
+    public void goToHomePage2() {
+        System.out.println("***Я нахожусь на домашней странице***");
+        manager.goTo().home();
+    }
+
+    @Then("^Я нажимаю ссылку signIn$")
+    public void clickSignInLink2() {
+        new HomePage(manager.getDriver())
+                .clickSignIn();
+    }
+
+    @When("^Ввожу логин '(.*?)'$")
+    public void fillLogin2(String login) {
+        // Write code here that turns the phrase above into concrete actions
+        new LoginPage(manager.getDriver())
+                .inputEmail(login);
+    }
+
+    @And("^Ввожу пароль '(.*?)'$")
+    public void fillPassword2(String password) {
+        new LoginPage(manager.getDriver())
+                .inputPassword(password);
+    }
+
+    @And("^нажимаю отправить$")
+    public void i_click_on_the_button2() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        new LoginPage(manager.getDriver())
+                .clickSignIn(false);
+    }
+
+    @Then("^должен увидеть сообщение об ошибке '(.*?)'$")
+    public void i_should_see_the_button2(String msg) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        Assert.assertEquals(
+                new LoginPage(manager.getDriver()).getErrorMessage(),
+                msg);
+    }
+
     @After
-    public void setDown(){
+    public void tearDown(){
         manager.stop();
     }
 }
