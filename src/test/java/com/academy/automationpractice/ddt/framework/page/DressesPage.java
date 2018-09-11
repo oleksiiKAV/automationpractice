@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
@@ -32,6 +33,9 @@ public class DressesPage extends BasePage{
 
     @FindBy(xpath="//input[@id='layered_id_attribute_group_7']")
     private WebElement beige;
+
+    @FindBy(xpath="(.//*[normalize-space(text()) and normalize-space(.)='--'])[1]/following::div[3]")
+    private WebElement productCount;
 
 
         public DressesPage(WebDriver driver) {
@@ -78,10 +82,11 @@ public class DressesPage extends BasePage{
         waitForJSandJQueryToLoad();
         return new DressesPage(driver);
     }
-    public void check () {
+    public void check (String check) {
+        System.out.println("Count Produkt"+productCount.getText());
 
         try {
-            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='--'])[1]/following::div[3]")).getText(), "Showing 1 - 8 of 3 items");
+            assertEquals(productCount.getText(), check);
         } catch (Error e) {
             verificationErrors.append(e.toString());
         }

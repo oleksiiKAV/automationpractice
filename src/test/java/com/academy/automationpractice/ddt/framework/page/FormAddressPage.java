@@ -1,7 +1,5 @@
-package com.academy.automationpractice.ddt.framework.helper;
+package com.academy.automationpractice.ddt.framework.page;
 
-import com.academy.automationpractice.ddt.framework.page.AddressPage;
-import com.academy.automationpractice.ddt.framework.page.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

@@ -10,17 +10,43 @@ public class DressHelper {
     public DressHelper (WebDriver driver) {
         this.driver = driver;
     }
-    public void color() {
+    public void color(String color) {
         System.out.println("Select Color");
-        new DressesPage(driver)
-                .clickBeige()
-                .clickBlack()
-                .clickGreen();
+        new DressesPage(driver);
+        switch (color) {
+            case "pink":
+                new DressesPage(driver).clickPink();
+                break;
+            case "green":
+                new DressesPage(driver).clickGreen();
+                break;
+            case "orange":
+                new DressesPage(driver).clickOrange();
+                break;
+            case "white":
+                new DressesPage(driver).clickWhite();
+                break;
+            case "yellow":
+                new DressesPage(driver).clickYellow();
+                break;
+            case "blue":
+                new DressesPage(driver).clickBlue();
+                break;
+            case "black":
+                new DressesPage(driver).clickBlack();
+                break;
+            case "beige":
+                new DressesPage(driver).clickBeige();
+                break;
+            default:
+                System.out.println("Incorrect Color");
+                break;
+        }
         System.out.println("Complete Color");
     }
-    public void choice() {
+    public void choice(String check) {
         new DressesPage(driver)
-                .check();
+                .check(check);
     }
 
 

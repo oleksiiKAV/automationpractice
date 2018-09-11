@@ -11,17 +11,13 @@ import java.io.IOException;
 
 public class LoginTests extends BaseTest {
 
-    @Test(dataProvider = "authProvider", enabled = false)
+    @Test(dataProvider = "authProvider")
     public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
-        System.out.println("Start 'testAuthCorrect'");
-
         manager.goTo().home();
         manager.session().login();
 
         manager.verify().userIsLoggedIn(userNameExpected);
         manager.session().logout();
-
-        System.out.println("Complete 'testAuthCorrect'");
     }
 
     @Test(dataProvider = "incorrectLoginProvider", enabled = false)
@@ -35,7 +31,7 @@ public class LoginTests extends BaseTest {
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"), "Oleg Afanasiev"}
+                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"), "_Oleg Afanasiev"}
         };
     }
 
