@@ -20,7 +20,7 @@ public class LoginTests extends BaseTest {
         manager.session().logout();
     }
 
-    @Test(dataProvider = "incorrectLoginProvider", enabled = false)
+    @Test(dataProvider = "negativeAuthExcelProvider", enabled = false)
     // TODO
     public void testAuthIncorrect(String email, String password, String errorMsg) {
         System.out.println("Start 'testAuthIncorrect'");
@@ -35,8 +35,8 @@ public class LoginTests extends BaseTest {
         };
     }
 
-    @DataProvider(name = "incorrectLoginProvider")
-    public Object[][] provideIncorrectAuthData() {
+    @DataProvider(name = "negativeAuthExcelProvider")
+    public Object[][] negativeAuthExcelProvider() {
         String authDataPath = PropertyManager.getProperty("auth.incorrect.data");
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(authDataPath)) {
