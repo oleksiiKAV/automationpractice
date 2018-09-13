@@ -26,6 +26,7 @@ import java.util.logging.Level;
 
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
+    protected static final Logger LOG_BROWSER = LogManager.getLogger("BROWSER");
 
     private static int DEFAULT_WAIT = 30;
     protected EventFiringWebDriver driver;
@@ -142,7 +143,7 @@ public class TestManager {
             LOG.debug("Navigated to {}", url);
 
             if (PropertyManager.getBooleanProperty("log.browser"))
-                driver.manage().logs().get("browser").forEach(LOG::debug);
+                driver.manage().logs().get("browser").forEach(LOG_BROWSER::debug);
 
             if (PropertyManager.getBooleanProperty("log.performance"))
                 driver.manage().logs().get("performance").forEach(LOG::debug);
