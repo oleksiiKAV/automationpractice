@@ -4,6 +4,7 @@ import com.academy.automationpractice.ddt.framework.TestManager;
 import com.academy.automationpractice.ddt.framework.page.AccountPage;
 import com.academy.automationpractice.ddt.framework.page.HomePage;
 import com.academy.automationpractice.ddt.framework.page.LoginPage;
+import com.academy.automationpractice.ddt.framework.page.WomenPage;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -108,6 +109,27 @@ public class StepDefinitions {
         Assert.assertEquals(
                 new LoginPage(manager.getDriver()).getErrorMessage(),
                 msg);
+    }
+
+    @Then("^I go on women page$")
+    public void goOnWomenPage(){
+        new HomePage(manager.getDriver()).clickWomenPageLink();
+    }
+    @Then("^I click on dresses link$")
+    public void clickDressLink (){
+        new WomenPage(manager.getDriver()).clickToDressesLink();
+    }
+    @Then("^I click on to list link$")
+    public void clickToListLink(){
+        new WomenPage(manager.getDriver()).clickToList();
+    }
+    @And("^I sort product by '(.*?)'$")
+    public void sortProductBy(String sortBy){
+        new WomenPage(manager.getDriver()).sortProductBy(sortBy);
+    }
+    @And("^I check actual product list and expected product list$")
+    public void checkSortBy (){
+        manager.women().verifySort();
     }
 
     @After

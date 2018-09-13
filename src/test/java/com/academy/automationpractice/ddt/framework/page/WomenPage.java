@@ -27,7 +27,7 @@ public class WomenPage extends BasePage {
         super(driver);
 
     }
-    public WomenPage clicktoDressesLink(){
+    public WomenPage clickToDressesLink(){
         clickDressesLink.click();
         return this;
     }

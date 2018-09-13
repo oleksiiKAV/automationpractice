@@ -11,8 +11,8 @@ public class SortPriceTest extends BaseTest {
     public void sortPriceToLowerFirstTest(String sortBy) throws Exception{
         manager.goTo().home();
         manager.goTo().womenPage();
-        manager.women().sortByPrice(sortBy);
-        manager.women().verifySort(sortBy);
+        manager.women().sortProductBy(sortBy);
+        manager.women().verifySort();
 
     }
 

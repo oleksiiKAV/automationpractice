@@ -15,15 +15,15 @@ public class WomenHelper {
         this.driver = driver;
     }
 
-    public void sortByPrice(String sortBy){
+    public void sortProductBy(String sortBy){
         new HomePage(driver)
                          .clickWomenPageLink()
-                         .clicktoDressesLink()
+                         .clickToDressesLink()
                          .clickToList()
                          .sortProductBy(sortBy);
 
     }
-    public void verifySort (String sortBy){
+    public void verifySort (){
         WomenPage womenPage = new WomenPage(driver);
         List<String> actualPrises =
                 womenPage
