@@ -62,6 +62,7 @@ public class SubscriberXmlTests {
     public void testGetDsl() {
         LOG.info("API-> test subscribers get by id");
         given().log().all()
+                .contentType("application/json; charset=UTF-8")
                 .when()
                     .get("/subscribers/{id}", 1)
                 .then()
@@ -78,6 +79,8 @@ public class SubscriberXmlTests {
     @Test
     public void testGetAll() {
         given().log().all()
+//                .header("charset", "UTF-8")
+                .contentType("application/json; charset=UTF-8")
                 .when()
                     .get("/subscribers")
                 .then()
@@ -127,6 +130,7 @@ public class SubscriberXmlTests {
 
         given().log().all()
                     .header("Content-Type", "application/xml")
+                    .header("charset", "UTF-8")
                     .body(xml)
                     .put("/subscribers/{id}", subscriber.getId())
                 .then()
