@@ -2,12 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <!--Конфигурация для testNG фреймворка-->
-<suite name="tests" parallel="tests" thread-count="1">
+<suite name="tests">
     <test name="all">
         <parameter name="browser" value="chrome" />
         <packages>
             <!--Запускаем все тесты из пакета 'com.academy.tests.*'-->
-            <package name="com.academy.automationpractice.bdd.*" />
+            <package name="com.academy.mobile.ddt.tests.full.*" />
         </packages>
     </test>
 </suite>
