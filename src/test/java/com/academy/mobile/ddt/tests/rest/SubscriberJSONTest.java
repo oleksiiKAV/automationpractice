@@ -5,7 +5,6 @@ import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
 import io.restassured.path.json.JsonPath;
-import io.restassured.path.xml.XmlPath;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
@@ -14,21 +13,23 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.io.IoBuilder;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static com.academy.automationpractice.ddt.util.MatcherAssertExt.assertThat;
-import static io.restassured.RestAssured.config;
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class SubscriberJSONTest {
     private static final Logger LOG = LogManager.getLogger(SubscriberXmlTests.class);
 
-    @BeforeSuite
+    @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
         RestAssured.port = 8081;
@@ -59,7 +60,7 @@ public class SubscriberJSONTest {
                 firstName, lastName, age, gender);
 
         Subscriber subscriber = jsonPath.getObject(".", Subscriber.class);
-        System.out.println(subscriber);
+        LOG.info(subscriber);
     }
 
     @Test
@@ -69,10 +70,10 @@ public class SubscriberJSONTest {
                 .when()
                     .get("/subscribers/{id}", 1)
                 .then()
-                .assertThat()
-                    .body("id", equalTo(1))
-                .and()
-                    .statusCode(200);
+                    .assertThat()
+                        .body("id", equalTo(1))
+                    .and()
+                        .statusCode(200);
     }
 
     @Test
@@ -83,7 +84,7 @@ public class SubscriberJSONTest {
                     .get("/subscribers")
                 .then()
                     .assertThat()
-                    .body("size()", greaterThan(1))
+                    .body("size()", greaterThanOrEqualTo(1))
                 .and()
                     .body("[0].id", equalTo(1))
                 .and()
@@ -107,7 +108,7 @@ public class SubscriberJSONTest {
                 .body(json.toJSONString())
                 .post("/subscribers")
                 .then().assertThat()
-                .header("Location", containsString("http://localhost:8081/rest/json/subscribers"))
+                .header("Location", containsString(String.format("http://localhost:%d/rest/json/subscribers", port)))
                 .statusCode(201);
     }
 
@@ -125,15 +126,15 @@ public class SubscriberJSONTest {
         json.put("gender", "m");
 
         given().log().all()
-                .header("Content-Type", "application/json")
-
-                .body(json.toJSONString())
-                .put("/subscribers/" + subscriber.getId())
-                .then().assertThat()
-                .body("id", equalTo((int)subscriber.getId()))
+                    .header("Content-Type", "application/json")
+                    .body(json.toJSONString())
+                    .put("/subscribers/{id}", subscriber.getId())
+                .then()
+                    .assertThat()
+                    .body("id", equalTo((int)subscriber.getId()))
                 .and()
-                .body("lastName", equalTo("Pupkin"))
-                .statusCode(200);
+                    .body("lastName", equalTo("Pupkin"))
+                    .statusCode(200);
     }
 
     @Test(dataProvider="subscriberProvider")
@@ -164,26 +165,15 @@ public class SubscriberJSONTest {
         assertThat(after, equalTo(before));
     }
 
-    @DataProvider
-    private Object[] subscriberProvider() {
-        return new Object[] {
-                Subscriber.newSubscriber()
-                        .id(28L)
-                        .firstName("testName")
-                        .lastName("lastName")
-                        .age(25)
-                        .gender(Gender.MALE)
-                        .build()
-        };
-    }
-
     private boolean isPresent(Subscriber subscriber) {
         return
                 given().log().all()
-                        .when().get("/subscribers/{id}", subscriber.getId())
+                            .header("Content-Type", "application/json")
+                        .when()
+                            .get("/subscribers/{id}", subscriber.getId())
                         .then()
-                        .extract()
-                        .statusCode() == 200;
+                            .extract()
+                            .statusCode() == 200;
     }
 
     private void add(Subscriber subscriber) {
@@ -208,6 +198,7 @@ public class SubscriberJSONTest {
     private List<Subscriber> getAll() {
         return
                 given().log().all()
+                        .header("Content-Type", "application/json")
                         .when()
                         .get("/subscribers")
                         .then()
@@ -215,5 +206,18 @@ public class SubscriberJSONTest {
                         .body()
                         .jsonPath()
                         .getList(".", Subscriber.class);
+}
+
+    @DataProvider
+    private Object[] subscriberProvider() {
+        return new Object[] {
+                Subscriber.newSubscriber()
+                        .id(28L)
+                        .firstName("testName")
+                        .lastName("lastName")
+                        .age(25)
+                        .gender(Gender.MALE)
+                        .build()
+        };
     }
 }

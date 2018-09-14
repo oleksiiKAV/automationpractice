@@ -1,7 +1,10 @@
 package com.academy.mobile.ddt.tests.framework.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.util.Objects;
 
+@XStreamAlias("subscriber")
 public class Subscriber {
     private long id;
     private String firstName;

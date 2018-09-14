@@ -1,5 +1,9 @@
 package com.academy.mobile.ddt.tests.rest;
 
+import com.academy.mobile.ddt.tests.framework.model.Gender;
+import com.academy.mobile.ddt.tests.framework.model.GenderXStreamConverter;
+import com.academy.mobile.ddt.tests.framework.model.Subscriber;
+import com.thoughtworks.xstream.XStream;
 import io.restassured.RestAssured;
 import io.restassured.config.LogConfig;
 import io.restassured.path.xml.XmlPath;
@@ -9,21 +13,18 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.io.IoBuilder;
-import org.json.simple.JSONObject;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Ignore;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.config;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
 
 public class SubscriberXmlTests {
     private static final Logger LOG = LogManager.getLogger(SubscriberXmlTests.class);
 
-    @BeforeSuite
+    @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/xml";
         RestAssured.port = 8081;
@@ -41,82 +42,154 @@ public class SubscriberXmlTests {
         ResponseBody body = response.body();
         XmlPath xmlPath = body.xmlPath();
         int  id = xmlPath.getInt("subscriber.id");
-        String  name = xmlPath.getString("subscriber.firstName");
+        String  firstName = xmlPath.getString("subscriber.firstName");
+        String  lastName = xmlPath.getString("subscriber.lastName");
+        int  age = xmlPath.getInt("subscriber.age");
+        Gender gender = Gender.valueOf(xmlPath.getString("subscriber.gender").charAt(0));
         int code = response.statusCode();
 
         Assert.assertEquals(code, 200);
         Assert.assertEquals(id, 1);
-        Assert.assertEquals(name, name);
+
+        LOG.info("First name: {}, Last name: {}, age: {}, gender: {}",
+                firstName, lastName, age, gender);
+
+        Subscriber subscriber = xmlPath.getObject(".", Subscriber.class);
+        LOG.info(subscriber);
     }
+
     @Test
     public void testGetDsl() {
         LOG.info("API-> test subscribers get by id");
         given().log().all()
-                .when().get("/subscribers/{id}", 1)
-                .then().assertThat()
-                .body("subscriber.id", equalTo("1"))
-                .body("subscriber.firstName", equalTo("Иван"))
-                .body("subscriber.lastName", equalTo("Петров"))
-                .body("subscriber.age", equalTo("33"))
-                .body("subscriber.gender", equalTo("m"))
-                .and().statusCode(200);
+                .when()
+                    .get("/subscribers/{id}", 1)
+                .then()
+                    .assertThat()
+                        .body("subscriber.id", equalTo("1"))
+//                        .body("subscriber.firstName", equalTo("Иван"))
+//                        .body("subscriber.lastName", equalTo("Петров"))
+//                        .body("subscriber.age", equalTo("33"))
+//                        .body("subscriber.gender", equalTo("m"))
+                    .and()
+                        .statusCode(200);
     }
 
     @Test
     public void testGetAll() {
-        given().config(config)
-                .log().all()
-                .when().get("/subscribers")
-                .then().assertThat()
-                .body("subscribers.subscriber.size()", equalTo(4))
+        given().log().all()
+                .when()
+                    .get("/subscribers")
+                .then()
+                    .assertThat()
+                        .body("subscribers.subscriber.size()", greaterThanOrEqualTo(1))
+                    .and()
+                        .body("subscribers.subscriber[0].id", equalTo("1"))
                 .and()
-                .body("subscribers.subscriber[0].id", equalTo("1"))
-                .and()
-                .statusCode(200);
+                        .statusCode(200);
     }
 
-    @Test
-    public void testPost() {
-        // TODO if exists
-        JSONObject json = new JSONObject();
-        json.put("firstName", "Vasya"); // Cast
-        json.put("lastName", "Pupkin");
-        json.put("age", "25");
-        json.put("gender", "m");
+    @Test(dataProvider="subscriberProvider")
+    public void testPost(Subscriber subscriber) {
+        if (isPresent(subscriber))
+            remove(subscriber);
+
+        XStream xStream = new XStream();
+        xStream.registerConverter(new GenderXStreamConverter());
+        xStream.processAnnotations(Subscriber.class);
+        String xml = xStream.toXML(subscriber);
 
         given().log().all()
-                .header("Content-Type", "application/json")
-                .body(json.toJSONString())
-                .post("/subscribers")
-                .then().assertThat()
-                .header("Location", containsString("http://localhost:8080/rest/xml/subscribers/"))
-                .statusCode(201);
+                    .header("Content-Type", "application/xml")
+                .with()
+                    .body(xml)
+                    .post("/subscribers")
+                .then()
+                    .assertThat()
+                        .header("Location", containsString(String.format("http://localhost:%d/rest/xml/subscribers/", port)))
+                        .statusCode(201);
     }
 
-    @Test
-    public void testUpdate() {
-        JSONObject json = new JSONObject();
-        json.put("id", "30"); // Cast
-        json.put("firstName", "Helen"); // Cast
-        json.put("lastName", "Ivanova");
-        json.put("age", "18");
-        json.put("gender", "f");
+    @Test(dataProvider="subscriberProvider")
+    public void testUpdate(Subscriber subscriber) {
+        if (!isPresent(subscriber))
+            add(subscriber);
+
+        subscriber.setFirstName("Ivan");
+        subscriber.setLastName("Ivanov");
+        subscriber.setAge(19);
+        subscriber.setGender(Gender.MALE);
+
+        XStream xStream = new XStream();
+        xStream.registerConverter(new GenderXStreamConverter());
+        xStream.processAnnotations(Subscriber.class);
+        String xml = xStream.toXML(subscriber);
+
         given().log().all()
-                .header("Content-Type", "application/json")
-                .body(json.toJSONString())
-                .put("/subscribers/30")
-                .then().assertThat()
-                .body("id", equalTo(30))
+                    .header("Content-Type", "application/xml")
+                    .body(xml)
+                    .put("/subscribers/{id}", subscriber.getId())
+                .then()
+                    .assertThat()
+                    .body("id", equalTo((int)subscriber.getId()))
                 .and()
-                .body("lastName", equalTo("Ivanova"))
-                .statusCode(200);
+                    .body("firstName", equalTo(subscriber.getFirstName()))
+                    .body("lastName", equalTo(subscriber.getLastName()))
+                    .body("age", equalTo(subscriber.getAge()))
+                    .body("gender", equalTo(subscriber.getGender().toString()))
+                    .statusCode(200);
     }
 
-    @Test
-    public void testDelete() {
+    @Test(dataProvider="subscriberProvider")
+    public void testDelete(Subscriber subscriber) {
+        if (!isPresent(subscriber))
+            add(subscriber);
+
         given().log().all()
-                .delete("/subscribers/30")
-                .then().assertThat()
-                .statusCode(200);
+                    .delete("/subscribers/{id}", subscriber.getId())
+                .then()
+                    .assertThat()
+                        .statusCode(200);
+    }
+
+    private boolean isPresent(Subscriber subscriber) {
+        return
+                given().log().all()
+                        .when()
+                            .get("/subscribers/{id}", subscriber.getId())
+                        .then()
+                            .extract()
+                            .statusCode() == 200;
+    }
+
+    private void add(Subscriber subscriber) {
+        XStream xStream = new XStream();
+        xStream.registerConverter(new GenderXStreamConverter());
+        xStream.processAnnotations(Subscriber.class);
+        String xml = xStream.toXML(subscriber);
+
+        given().log().all()
+                .header("Content-Type", "application/xml")
+                .with()
+                .body(xml)
+                .post("/subscribers");
+    }
+
+    private void remove(Subscriber subscriber) {
+        given().log().all()
+                .delete("/subscribers/{id}", subscriber.getId());
+    }
+
+    @DataProvider
+    private Object[] subscriberProvider() {
+        return new Object[] {
+                Subscriber.newSubscriber()
+                        .id(38L)
+                        .firstName("testName")
+                        .lastName("lastName")
+                        .age(28)
+                        .gender(Gender.FEMALE)
+                        .build()
+        };
     }
 }
