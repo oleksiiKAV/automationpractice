@@ -1,10 +1,11 @@
 package com.academy.automationpractice.ddt.util;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matcher;
 
 public class MatcherVerifyExt {
-    public static Logger log;
+    public static Logger log = LogManager.getLogger(MatcherVerifyExt.class);
 
     public static <T> void verifyThat(T actual, Matcher<? super T> matcher) {
         try {

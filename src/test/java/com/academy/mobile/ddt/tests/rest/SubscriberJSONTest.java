@@ -3,8 +3,6 @@ package com.academy.mobile.ddt.tests.rest;
 import com.academy.mobile.ddt.tests.framework.model.Gender;
 import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import io.restassured.RestAssured;
-import io.restassured.config.HeaderConfig;
-import io.restassured.config.JsonConfig;
 import io.restassured.config.LogConfig;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -16,7 +14,6 @@ import org.apache.logging.log4j.io.IoBuilder;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -26,7 +23,6 @@ import java.util.Set;
 
 import static com.academy.automationpractice.ddt.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
-import static io.restassured.config.HeaderConfig.headerConfig;
 import static org.hamcrest.Matchers.*;
 
 public class SubscriberJSONTest {
@@ -38,8 +34,6 @@ public class SubscriberJSONTest {
         RestAssured.port = 8081;
 
         config = config()
-//                .headerConfig(config.getHeaderConfig()
-//                        .overwriteHeadersWithName("charset", "UTF-8"))
                 .logConfig(new LogConfig()
                         .defaultStream(IoBuilder.forLogger(LOG).buildPrintStream()));
     }
@@ -205,22 +199,15 @@ public class SubscriberJSONTest {
     }
 
     private List<Subscriber> getAll() {
-        JsonPath jsonPath =
+        return
                 given().log().all()
                         .contentType("application/json; charset=UTF-8")
-//                        .header("Content-Type", "application/json")
-//                        .header("charset", "UTF-8")
                         .when()
                         .get("/subscribers")
                         .then()
                         .extract()
                         .body()
-                        .jsonPath();
-
-
-        System.out.println("**********************");
-        return
-                jsonPath
+                        .jsonPath()
                         .getList(".", Subscriber.class);
     }
 

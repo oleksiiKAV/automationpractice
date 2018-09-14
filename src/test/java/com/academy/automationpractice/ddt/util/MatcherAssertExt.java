@@ -1,11 +1,12 @@
 package com.academy.automationpractice.ddt.util;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matcher;
 
 public class MatcherAssertExt {
 
-    public static Logger log;
+    public static Logger log = LogManager.getLogger(MatcherAssertExt.class);
 
     public static <T> void assertThat(T actual, Matcher<? super T> matcher) {
         try {
