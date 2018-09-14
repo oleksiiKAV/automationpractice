@@ -1,6 +1,7 @@
 package com.academy.mobile.ddt.tests.framework.helper;
 
 import com.academy.automationpractice.ddt.framework.page.AccountPage;
+import com.academy.mobile.ddt.tests.framework.page.HomePage;
 import org.openqa.selenium.WebDriver;
 
 public class NavigationHelper {
@@ -17,7 +18,7 @@ public class NavigationHelper {
     }
 
     public void subscribers() {
-        new AccountPage(driver)
-                .clickAddress();
+        new HomePage(driver)
+                .clickSubscribers();
     }
 }
