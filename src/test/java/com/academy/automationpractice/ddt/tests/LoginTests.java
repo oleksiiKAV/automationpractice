@@ -1,6 +1,6 @@
 package com.academy.automationpractice.ddt.tests;
 
-import com.academy.automationpractice.ddt.util.PropertyManager;
+import com.academy.util.PropertyManager;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -31,13 +31,13 @@ public class LoginTests extends BaseTest {
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"), "Oleg Afanasiev"}
+                {PropertyManager.from(manager.prop()).getProperty("automation.username"), PropertyManager.from(manager.prop()).getProperty("automation.password"), "Oleg Afanasiev"}
         };
     }
 
     @DataProvider(name = "negativeAuthExcelProvider")
     public Object[][] negativeAuthExcelProvider() {
-        String authDataPath = PropertyManager.getProperty("auth.incorrect.data");
+        String authDataPath = PropertyManager.from(manager.prop()).getProperty("auth.incorrect.data");
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(authDataPath)) {
             XSSFSheet sheet = workbook.getSheetAt(0);

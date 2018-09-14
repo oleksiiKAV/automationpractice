@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.academy.automationpractice.ddt.util.MatcherAssertExt.assertThat;
+import static com.academy.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 

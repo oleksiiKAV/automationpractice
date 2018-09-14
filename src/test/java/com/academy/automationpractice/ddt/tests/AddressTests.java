@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.academy.automationpractice.ddt.util.MatcherAssertExt.assertThat;
+import static com.academy.util.MatcherAssertExt.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 
