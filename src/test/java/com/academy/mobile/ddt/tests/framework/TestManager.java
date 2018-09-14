@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
-    private static final String PROP_NAME = "mobile";
+    private static final String COMMON = "common";
+    private static final String MOBILE = "mobile";
 
     private static int DEFAULT_WAIT = 10;
     protected WebDriver driver;
@@ -24,7 +25,7 @@ public class TestManager {
 
         switch (browser) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", PropertyManager.from(PROP_NAME).getProperty("chrome.driver"));
+                System.setProperty("webdriver.chrome.driver", PropertyManager.from(COMMON).getProperty("chrome.driver"));
 
                 // start the browser up
                 driver = new ChromeDriver();
@@ -32,14 +33,14 @@ public class TestManager {
                 break;
 
             case "firefox":
-                System.setProperty("webdriver.gecko.driver", PropertyManager.from(PROP_NAME).getProperty("firefox.driver"));
+                System.setProperty("webdriver.gecko.driver", PropertyManager.from(COMMON).getProperty("firefox.driver"));
                 driver = new FirefoxDriver();
                 break;
         }
 
         driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
         //        driver.manage().window().maximize();
-        navigationHelper = new NavigationHelper(driver, PropertyManager.from(PROP_NAME).getProperty("automation.baseurl"));
+        navigationHelper = new NavigationHelper(driver, PropertyManager.from(MOBILE).getProperty("baseurl"));
     }
 
     public void stop() {

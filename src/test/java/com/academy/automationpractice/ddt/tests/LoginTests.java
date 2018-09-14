@@ -31,13 +31,13 @@ public class LoginTests extends BaseTest {
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.from(manager.prop()).getProperty("automation.username"), PropertyManager.from(manager.prop()).getProperty("automation.password"), "Oleg Afanasiev"}
+                {PropertyManager.from("automation").getProperty("username"), PropertyManager.from("automation").getProperty("automation.password"), "Oleg Afanasiev"}
         };
     }
 
     @DataProvider(name = "negativeAuthExcelProvider")
     public Object[][] negativeAuthExcelProvider() {
-        String authDataPath = PropertyManager.from(manager.prop()).getProperty("auth.incorrect.data");
+        String authDataPath = PropertyManager.from("automation").getProperty("auth.incorrect.data");
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(authDataPath)) {
             XSSFSheet sheet = workbook.getSheetAt(0);
