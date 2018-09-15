@@ -7,7 +7,7 @@
         <parameter name="browser" value="chrome" />
         <packages>
             <!--Запускаем все тесты из пакета 'com.academy.tests.*'-->
-            <package name="com.academy.mobile.ddt.tests.full.*" />
+            <package name="com.academy.mobile.ddt.tests.rest.*" />
         </packages>
     </test>
 </suite>
