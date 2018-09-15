@@ -1,6 +1,9 @@
 package com.academy.mobile.ddt.tests.framework;
 
-import com.academy.mobile.ddt.tests.framework.helper.NavigationHelper;
+import com.academy.mobile.ddt.tests.framework.bd.helper.SubscriberBdHelper;
+import com.academy.mobile.ddt.tests.framework.rest.helper.SubscriberRestHelper;
+import com.academy.mobile.ddt.tests.framework.ui.helper.NavigationUiHelper;
+import com.academy.mobile.ddt.tests.framework.ui.helper.SubscriberUiHelper;
 import com.academy.util.PropertyManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +16,13 @@ import java.util.concurrent.TimeUnit;
 
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
+
     private static final String COMMON = "common";
     private static final String MOBILE = "mobile";
 
-    private UIManager uiManager = new UIManager();
+    private UiManager uiManager = new UiManager();
+    private RestManager restManager = new RestManager();
+    private BdManager bdManager = new BdManager();
 
     public void init(String browser) throws IOException  {
         uiManager.init(browser);
@@ -26,15 +32,24 @@ public class TestManager {
         uiManager.stop();
     }
 
-    public UIManager ui() {
+    public UiManager ui() {
         return uiManager;
     }
 
-    public class UIManager {
+    public RestManager rest() {
+        return restManager;
+    }
+
+    public BdManager bd() {
+        return bdManager;
+    }
+
+    public class UiManager {
         private final int DEFAULT_WAIT = 10;
         protected WebDriver driver;
 
-        private NavigationHelper navigationHelper;
+        private NavigationUiHelper navigationHelper;
+        private SubscriberUiHelper subscriberHelper;
 
         public void init(String browser) throws IOException {
 
@@ -55,15 +70,35 @@ public class TestManager {
 
             driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
             //        driver.manage().window().maximize();
-            navigationHelper = new NavigationHelper(driver, PropertyManager.from(MOBILE).getProperty("baseurl"));
+            navigationHelper = new NavigationUiHelper(driver, PropertyManager.from(MOBILE).getProperty("baseurl"));
         }
 
         public void stop() {
             driver.quit();
         }
 
-        public NavigationHelper goTo() {
+        public NavigationUiHelper goTo() {
             return navigationHelper;
+        }
+
+        public SubscriberUiHelper subscriber() {
+            return subscriberHelper;
+        }
+    }
+
+    public class RestManager {
+        private SubscriberRestHelper subscriberHelper;
+
+        public SubscriberRestHelper subscriber() {
+            return subscriberHelper;
+        }
+    }
+
+    public class BdManager {
+        private SubscriberBdHelper subscriberHelper;
+
+        public SubscriberBdHelper subscriber() {
+            return subscriberHelper;
         }
     }
 }

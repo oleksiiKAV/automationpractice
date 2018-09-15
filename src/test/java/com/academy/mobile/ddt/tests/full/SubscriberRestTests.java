@@ -1,6 +1,6 @@
 package com.academy.mobile.ddt.tests.full;
 
-import com.academy.mobile.ddt.tests.framework.model.Gender;
+import com.academy.mobile.ddt.tests.framework.model.Entities;
 import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -15,27 +15,32 @@ public class SubscriberRestTests extends BaseTest {
 
     @BeforeMethod
     public void prepare() {
-        manager.ui().goTo().home();
-        manager.ui().goTo().subscribers();
+        if (manager.ui().ifOn()) {
+            manager.ui().goTo().home();
+            manager.ui().goTo().subscribers();
+        }
     }
 
     // TODO
     @Test(dataProvider = "modificationProvider")
-    public void testModificationSubscriber(Subscriber subscriber, Subscriber modifiedSubscriber) {
-//        if (!manager.rest().subscriber().isPresent(subscriber))
-//            manager.rest().susbcriber().create(subscriber);
+    public void testModificationSubscriber(Subscriber subscriberBefore, Subscriber subscriberAfter) {
+        manager.rest().subscriber().createIfNotPresent(subscriberBefore);
+        manager.verify().subscribersFromRestEqualToUi();
+        manager.verify().subscribersFromRestEqualToBd();
+
+//        Entities<Subscriber> before = manager.rest().subscriber().all();
 //
-//        Subscribers uiBefore = manager.ui().subscriber().all();
-//        Subscribers dbBefore = manager.ui().subscriber().all();
-//        Subscribers restBefore = manager.ui().subscriber().all();
-//
-//        manager.rest().subscriber().modify(subscriber, modifiedSubscriber);
-//
-//        Subscribers uiAfter = manager.ui().subscriber().all();
-//        Subscribers dbAfter = manager.ui().subscriber().all();
-//        Subscribers restAfter = manager.ui().subscriber().all();
-//
-//        assertThat(restAfter, equalTo(restBefore.withModified(modifiedSubscriber);
+//        manager.ui().subscriber().verifyIfOnEqualTo(before);
+//        manager.bd().subscriber().verifyIfOnEqualTo(before);
+
+        manager.rest().subscriber().modify(subscriberBefore, subscriberAfter);
+        manager.rest().subscriber().verifyIsModified();
+
+        Entities<Subscriber> after  = manager.rest().subscriber().all();
+        assertThat(after, equalTo(after.withModified(subscriberBefore, subscriberAfter)));
+
+        manager.ui().subscriber().verifyIfSwitchedEqualTo(after);
+        manager.bd().subscriber().verifyIfSwitchedEqualTo(after);
     }
 
     @DataProvider
@@ -44,15 +49,19 @@ public class SubscriberRestTests extends BaseTest {
                 {
                         Subscriber.newSubscriber()
                                 .id(100)
-                                .firstName("OldFirstName")
-                                .lastName("OldLastName")
+                                .firstName("Evgeniy")
+                                .lastName("Onegin")
                                 .age(25)
                                 .gender(MALE)
                                 .build(),
-                        "ModifiedFirstName",
-                        "ModifiedLastName",
-                        26,
-                        FEMALE
+
+                        Subscriber.newSubscriber()
+                                .id(100)
+                                .firstName("Maria")
+                                .lastName("Pechkina")
+                                .age(28)
+                                .gender(FEMALE)
+                                .build(),
                 }
         };
     }
