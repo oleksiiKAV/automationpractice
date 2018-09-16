@@ -18,7 +18,7 @@ public class SubscriberBdHelper {
     private String jdbcDriver;
     private String jdbcUrl;
 
-    private boolean isOn = false;
+    private boolean bdMode = false;
 
     public SubscriberBdHelper(String jdbcDriver, String jdbcUrl) {
         this.jdbcDriver = jdbcDriver;
@@ -34,8 +34,8 @@ public class SubscriberBdHelper {
         }
     }
 
-    public void setOn(boolean on) {
-        isOn = on;
+    public void setBdMode(boolean on) {
+        bdMode = on;
     }
 
     public Entities<Subscriber> all() {
@@ -61,8 +61,10 @@ public class SubscriberBdHelper {
         return subscribers;
     }
 
-    public void verifyIfOnEqualTo(Entities<Subscriber> expected) {
-        if (isOn)
-            assertThat(all(), equalTo(expected));
+    public void verifyEqualTo(Entities<Subscriber> expected) {
+        if (!bdMode)
+            return;
+
+        assertThat(all(), equalTo(expected));
     }
 }

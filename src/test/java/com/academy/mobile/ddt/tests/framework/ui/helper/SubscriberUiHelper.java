@@ -40,9 +40,10 @@ public class SubscriberUiHelper extends BaseUiHelper {
         return subscribers;
     }
 
-    public void verifyIfOnEqualTo(Entities<Subscriber> expected) {
-        if (isOn) {
-            assertThat(all(), equalTo(expected));
-        }
+    public void verifyEqualTo(Entities<Subscriber> expected) {
+        if (!uiMode)
+            return;
+
+        assertThat(all(), equalTo(expected));
     }
 }

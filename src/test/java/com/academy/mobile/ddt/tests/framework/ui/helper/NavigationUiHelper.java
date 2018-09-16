@@ -14,18 +14,26 @@ public class NavigationUiHelper extends BaseUiHelper {
     }
 
     public void home() {
+        if (!uiMode)
+            return;
+
         driver.get(baseUrl);
     }
 
     public void subscribers() {
+        if (!uiMode)
+            return;
+
         new HomePage(driver)
                 .clickSubscribers();
     }
 
-    public void reloadIfOn() {
-        if (isOn) {
-            driver.navigate().refresh();
-            BasePage.waitForPageLoadComplete(driver, 10);
-        }
+    public void reload() {
+        if (!uiMode)
+            return;
+
+        driver.navigate().refresh();
+        BasePage.waitForPageLoadComplete(driver, 10);
+
     }
 }

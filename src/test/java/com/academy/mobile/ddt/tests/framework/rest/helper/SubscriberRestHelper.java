@@ -25,7 +25,7 @@ public class SubscriberRestHelper {
         init();
     }
 
-    public void setOn(boolean on) {
+    public void setRestMode(boolean on) {
         isOn = on;
     }
 

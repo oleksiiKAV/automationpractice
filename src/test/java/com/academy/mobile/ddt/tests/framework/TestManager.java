@@ -48,7 +48,7 @@ public class TestManager {
 
     public class UiManager {
         private final int DEFAULT_WAIT = 10;
-        private boolean checkMode;
+        private boolean uiMode;
 
         protected WebDriver driver;
 
@@ -56,35 +56,38 @@ public class TestManager {
         private SubscriberUiHelper subscriberHelper;
 
         public void init(String browser) throws IOException {
-            checkMode = PropertyManager.from(MOBILE).getBoolean("ui.mode");
+            uiMode = PropertyManager.from(MOBILE).getBoolean("ui.mode");
 
-            switch (browser) {
-                case "chrome":
-                    System.setProperty("webdriver.chrome.driver", PropertyManager.from(COMMON).getProperty("chrome.driver"));
+            if (uiMode) {
+                switch (browser) {
+                    case "chrome":
+                        System.setProperty("webdriver.chrome.driver", PropertyManager.from(COMMON).getProperty("chrome.driver"));
 
-                    // start the browser up
-                    driver = new ChromeDriver();
+                        // start the browser up
+                        driver = new ChromeDriver();
 
-                    break;
+                        break;
 
-                case "firefox":
-                    System.setProperty("webdriver.gecko.driver", PropertyManager.from(COMMON).getProperty("firefox.driver"));
-                    driver = new FirefoxDriver();
-                    break;
+                    case "firefox":
+                        System.setProperty("webdriver.gecko.driver", PropertyManager.from(COMMON).getProperty("firefox.driver"));
+                        driver = new FirefoxDriver();
+                        break;
+                }
+
+                driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
+                //        driver.manage().window().maximize();
             }
 
-            driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
-            //        driver.manage().window().maximize();
-
             navigationHelper = new NavigationUiHelper(driver, PropertyManager.from(MOBILE).getProperty("baseurl"));
-            navigationHelper.setOn(checkMode);
+            navigationHelper.setUiMode(uiMode);
 
             subscriberHelper = new SubscriberUiHelper(driver);
-            subscriberHelper.setOn(checkMode);
+            subscriberHelper.setUiMode(uiMode);
         }
 
         public void stop() {
-            driver.quit();
+            if (uiMode)
+                driver.quit();
         }
 
         public NavigationUiHelper goTo() {
@@ -96,19 +99,19 @@ public class TestManager {
         }
 
         public boolean ifOn() {
-            return checkMode;
+            return uiMode;
         }
     }
 
     public class RestManager {
-        private boolean checkMode;
+        private boolean restMode;
 
         private SubscriberRestHelper subscriberHelper;
 
         public void init() {
-            checkMode = PropertyManager.from(MOBILE).getBoolean("rest.mode");
+            restMode = PropertyManager.from(MOBILE).getBoolean("rest.mode");
             subscriberHelper = new SubscriberRestHelper(PropertyManager.from(MOBILE).getProperty("baseurl"));
-            subscriberHelper.setOn(checkMode);
+            subscriberHelper.setRestMode(restMode);
         }
 
         public SubscriberRestHelper subscriber() {
@@ -117,17 +120,17 @@ public class TestManager {
     }
 
     public class BdManager {
-        private boolean checkMode;
+        private boolean bdMode;
 
         private SubscriberBdHelper subscriberHelper;
 
         public void init() {
-            checkMode = PropertyManager.from(MOBILE).getBoolean("bd.mode");
+            bdMode = PropertyManager.from(MOBILE).getBoolean("bd.mode");
             subscriberHelper = new SubscriberBdHelper(
                     PropertyManager.from(MOBILE).getProperty("jdbc.driver"),
                     PropertyManager.from(MOBILE).getProperty("jdbc.url")
                     );
-            subscriberHelper.setOn(checkMode);
+            subscriberHelper.setBdMode(bdMode);
         }
 
         public SubscriberBdHelper subscriber() {
