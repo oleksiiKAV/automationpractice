@@ -23,7 +23,6 @@ import java.util.Set;
 
 import static com.academy.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
-import static io.restassured.specification.ProxySpecification.host;
 import static org.hamcrest.Matchers.*;
 
 public class SubscriberJSONTest {
@@ -33,7 +32,7 @@ public class SubscriberJSONTest {
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
         RestAssured.port = 8081;
-        RestAssured.proxy = host("127.0.0.1").withPort(8888);
+//        RestAssured.proxy = host("127.0.0.1").withPort(8888);
 
         config = config()
                 .logConfig(new LogConfig()

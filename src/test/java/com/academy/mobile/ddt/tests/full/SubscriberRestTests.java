@@ -1,7 +1,6 @@
 package com.academy.mobile.ddt.tests.full;
 
 import com.academy.mobile.ddt.tests.framework.model.Entities;
-import com.academy.mobile.ddt.tests.framework.model.Gender;
 import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -22,21 +21,21 @@ public class SubscriberRestTests extends BaseTest {
         }
     }
 
-    // TODO
     @Test(dataProvider = "modificationProvider")
     public void testModificationSubscriber(Subscriber subscriberBefore, Subscriber subscriberAfter) {
         manager.rest().subscriber().createIfNotPresent(subscriberBefore);
 
         Entities<Subscriber> before = manager.rest().subscriber().all();
 
+        manager.ui().goTo().reloadIfOn();
         manager.ui().subscriber().verifyIfOnEqualTo(before);
         manager.bd().subscriber().verifyIfOnEqualTo(before);
 
         manager.rest().subscriber().modify(subscriberBefore, subscriberAfter);
 
         Entities<Subscriber> after  = manager.rest().subscriber().all();
-        assertThat(after, equalTo(after.withModified(subscriberBefore, subscriberAfter)));
-
+        assertThat(after, equalTo(before.withModified(subscriberBefore, subscriberAfter)));
+        manager.ui().goTo().reloadIfOn();
         manager.ui().subscriber().verifyIfOnEqualTo(after);
         manager.bd().subscriber().verifyIfOnEqualTo(after);
     }
