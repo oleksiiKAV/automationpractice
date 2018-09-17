@@ -157,13 +157,24 @@ public class SubscriberXmlTests {
     }
 
     private boolean isPresent(Subscriber subscriber) {
-        return
+        try {
+            return
                 given().log().all()
                         .when()
                             .get("/subscribers/{id}", subscriber.getId())
                         .then()
+                            .assertThat()
+                            .statusCode(200)
+                        .and()
                             .extract()
-                            .statusCode() == 200;
+                            .body()
+                            .xmlPath()
+                            .getObject(".", Subscriber.class)
+                            .equals(subscriber);
+
+        } catch (AssertionError err) {
+            return false;
+        }
     }
 
     private void add(Subscriber subscriber) {

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class PropertyManager {
-    private Map<String, Properties> properties = new HashMap<>();
+    private Map<String, PropertyWrapper> properties = new HashMap<>();
 
     private static PropertyManager instance;
 
@@ -26,7 +26,7 @@ public class PropertyManager {
             return;
 
         // load properties
-        properties.put(name, new Properties());
+        properties.put(name, new PropertyWrapper());
         InputStream is= PropertyManager.class.getClassLoader().getResourceAsStream(name+".properties");
         try {
             properties.get(name).load(new InputStreamReader(is, "UTF-8"));
@@ -35,9 +35,25 @@ public class PropertyManager {
         }
     }
 
-    public static Properties from(String name) {
+    public static PropertyWrapper from(String name) {
         getInstance().ensureLoaded(name);
 
         return getInstance().properties.get(name);
+    }
+
+    public class PropertyWrapper {
+        private Properties properties = new Properties();
+
+        private void load(InputStreamReader ior) throws IOException {
+            properties.load(ior);
+        }
+
+        public String getProperty(String key) {
+            return properties.getProperty(key);
+        }
+
+        public Boolean getBoolean(String key) {
+            return Boolean.parseBoolean(properties.getProperty(key));
+        }
     }
 }

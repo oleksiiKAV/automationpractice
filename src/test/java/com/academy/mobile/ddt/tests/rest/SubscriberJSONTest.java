@@ -32,52 +32,62 @@ public class SubscriberJSONTest {
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
         RestAssured.port = 8081;
+//        RestAssured.proxy = host("127.0.0.1").withPort(8888);
 
         config = config()
                 .logConfig(new LogConfig()
                         .defaultStream(IoBuilder.forLogger(LOG).buildPrintStream()));
     }
 
-    @Test
-    public void testGet() {
+    @Test(dataProvider = "subscriberFirstProvider")
+    public void testGet(Subscriber subscriberExpected) {
         LOG.info("API-> test subscribers get by id");
+        if (!isPresent(subscriberExpected))
+            add(subscriberExpected);
+
         RequestSpecification request = RestAssured.given();
         Response response = request.get("/subscribers/1");
         ResponseBody body = response.body();
         JsonPath jsonPath = body.jsonPath();
         long id = jsonPath.getLong("id");
         String  firstName = jsonPath.getString("firstName");
-        String  lastName = jsonPath.getString("firstName");
+        String  lastName = jsonPath.getString("lastName");
         int  age = jsonPath.getInt("age");
         Gender gender = Gender.valueOf(jsonPath.getString("gender").charAt(0));
         int code = response.getStatusCode();
 
         Assert.assertEquals(code, 200);
-        Assert.assertEquals(id, 1);
+        Assert.assertEquals(id, subscriberExpected.getId());
 
         LOG.info("First name: {}, Last name: {}, age: {}, gender: {}",
                 firstName, lastName, age, gender);
 
-        Subscriber subscriber = jsonPath.getObject(".", Subscriber.class);
-        LOG.info(subscriber);
+        Subscriber subscriberActual = jsonPath.getObject(".", Subscriber.class);
+        LOG.info(subscriberActual);
     }
 
-    @Test
-    public void testGetDsl() {
+    @Test(dataProvider = "subscriberFirstProvider")
+    public void testGetDsl(Subscriber subscriberExpected) {
+        if (!isPresent(subscriberExpected))
+            add(subscriberExpected);
+
         LOG.info("API-> test subscribers get by id");
         given().log().all()
                 .when()
-                .get("/subscribers/{id}", 1)
+                .get("/subscribers/{id}", subscriberExpected.getId())
                 .then()
                 .assertThat()
-                .body("id", equalTo(1))
+                .body("id", equalTo((int)subscriberExpected.getId()))
                 .and()
                 .statusCode(200);
     }
 
-    @Test
-    public void testGetAll() {
+    @Test(dataProvider = "subscriberFirstProvider")
+    public void testGetAll(Subscriber subscriber) {
         LOG.info("API-> test subscribers get All");
+        if (!isPresent(subscriber))
+            add(subscriber);
+
         given().log().all()
                 .when()
                 .get("/subscribers")
@@ -106,7 +116,8 @@ public class SubscriberJSONTest {
                 .header("Content-Type", "application/json")
                 .body(json.toJSONString())
                 .post("/subscribers")
-                .then().assertThat()
+                .then()
+                .assertThat()
                 .header("Location", containsString(String.format("http://localhost:%d/rest/json/subscribers", port)))
                 .statusCode(201);
     }
@@ -169,14 +180,24 @@ public class SubscriberJSONTest {
     }
 
     private boolean isPresent(Subscriber subscriber) {
-        return
-                given().log().all()
-                        .header("Content-Type", "application/json")
-                        .when()
-                        .get("/subscribers/{id}", subscriber.getId())
-                        .then()
-                        .extract()
-                        .statusCode() == 200;
+        try {
+            return
+                    given().log().all()
+                            .header("Content-Type", "application/json")
+                            .when()
+                            .get("/subscribers/{id}", subscriber.getId())
+                            .then()
+                            .assertThat()
+                            .statusCode(200)
+                            .and()
+                            .extract()
+                            .body()
+                            .jsonPath()
+                            .getObject(".", Subscriber.class)
+                            .equals(subscriber);
+        } catch (AssertionError err) {
+            return false;
+        }
     }
 
     private void add(Subscriber subscriber) {
@@ -218,6 +239,18 @@ public class SubscriberJSONTest {
                         .id(28L)
                         .firstName("testName")
                         .lastName("lastName")
+                        .age(25)
+                        .gender(Gender.MALE)
+                        .build()
+        };
+    }
+
+    @DataProvider Object[] subscriberFirstProvider() {
+        return new Object[] {
+                Subscriber.newSubscriber()
+                        .id(1L)
+                        .firstName("Peter")
+                        .lastName("Pechking")
                         .age(25)
                         .gender(Gender.MALE)
                         .build()
