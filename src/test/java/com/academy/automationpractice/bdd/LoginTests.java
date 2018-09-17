@@ -28,6 +28,7 @@ public class LoginTests {
 
     @Test(groups = "bdd", description = "Runs Cucumber Feature", dataProvider = "features")
     public void testLogin(CucumberFeatureWrapper cucumberFeature) {
+        System.out.println("******************Старт тест******************");
         testNGCucumberRunner.runCucumber(cucumberFeature.getCucumberFeature());
     }
 

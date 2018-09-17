@@ -1,7 +1,7 @@
 package com.academy.automationpractice.ddt.framework;
 
 import com.academy.automationpractice.ddt.framework.helper.*;
-import com.academy.automationpractice.ddt.util.PropertyManager;
+import com.academy.util.PropertyManager;
 import com.google.common.io.Files;
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -26,8 +26,12 @@ import java.util.logging.Level;
 
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
+    protected static final Logger LOG_BROWSER = LogManager.getLogger("BROWSER");
 
     private static int DEFAULT_WAIT = 30;
+    private static String AUTOMATION = "automation";
+    private static String COMMON = "common";
+
     protected EventFiringWebDriver driver;
     private BrowserMobProxy proxy;
 
@@ -42,19 +46,19 @@ public class TestManager {
 
         switch (browser) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", PropertyManager.getProperty("chrome.driver"));
+                System.setProperty("webdriver.chrome.driver", PropertyManager.from(COMMON).getProperty("chrome.driver"));
 
                 ChromeOptions options = new ChromeOptions();
 
                 // performance
-                if (PropertyManager.getBooleanProperty("log.performance")) {
+                if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.performance"))) {
                     LoggingPreferences logPrefs = new LoggingPreferences();
                     logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
                     options.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
                 }
 
                 // proxy
-                if (PropertyManager.getBooleanProperty("log.proxy")) {
+                if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.proxy"))) {
                     proxy = new BrowserMobProxyServer();
                     proxy.start(0);
 
@@ -72,16 +76,16 @@ public class TestManager {
                 break;
 
             case "firefox":
-                System.setProperty("webdriver.gecko.driver", PropertyManager.getProperty("firefox.driver"));
+                System.setProperty("webdriver.gecko.driver", PropertyManager.from(COMMON).getProperty("firefox.driver"));
                 driver = new EventFiringWebDriver(new FirefoxDriver());
                 break;
         }
 
         driver.register(new DetailWebDriverEventListener());
         driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
-                driver.manage().window().maximize();
-        navigationHelper = new NavigationHelper(driver, PropertyManager.getProperty("automation.baseurl"));
-        sessionHelper = new SessionHelper(driver, PropertyManager.getProperty("automation.username"), PropertyManager.getProperty("automation.password"));
+        //        driver.manage().window().maximize();
+        navigationHelper = new NavigationHelper(driver, PropertyManager.from(AUTOMATION).getProperty("baseurl"));
+        sessionHelper = new SessionHelper(driver, PropertyManager.from(AUTOMATION).getProperty("username"), PropertyManager.from(AUTOMATION).getProperty("password"));
         accountHelper = new AccountHelper(driver);
         addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
@@ -89,7 +93,7 @@ public class TestManager {
     }
 
     public void stop() {
-        if (PropertyManager.getBooleanProperty("log.proxy")) {
+        if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.proxy"))) {
             Har har = proxy.endHar();
             har.getLog().getEntries().forEach(l -> LOG.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
         }
@@ -101,11 +105,9 @@ public class TestManager {
     }
 
     public DressHelper mark() {
-        System.out.println("Start mark");
         return dressHelper;
     }
     public DressHelper verifyty() {
-        System.out.println("Start verifyty");
         return dressHelper;
     }
 
@@ -155,17 +157,17 @@ public class TestManager {
         public void afterNavigateTo(String url, WebDriver driver) {
             LOG.debug("Navigated to {}", url);
 
-            if (PropertyManager.getBooleanProperty("log.browser"))
-                driver.manage().logs().get("browser").forEach(LOG::debug);
+            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.browser")))
+                driver.manage().logs().get("browser").forEach(LOG_BROWSER::debug);
 
-            if (PropertyManager.getBooleanProperty("log.performance"))
+            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.performance")))
                 driver.manage().logs().get("performance").forEach(LOG::debug);
         }
 
         private void makeScreenshot() {
             File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String screenName = "screen_" + System.currentTimeMillis()+".png";
-            String screenPath = PropertyManager.getProperty("screenshots") + "/" + screenName;
+            String screenPath = PropertyManager.from(AUTOMATION).getProperty("screenshots") + "/" + screenName;
             File screen = new File(screenPath);
             try {
                 Files.copy(tmp, screen);

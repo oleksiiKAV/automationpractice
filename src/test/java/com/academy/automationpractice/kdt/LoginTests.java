@@ -1,9 +1,8 @@
 package com.academy.automationpractice.kdt;
 
 import com.academy.automationpractice.ddt.tests.BaseTest;
-import com.academy.automationpractice.kdt.engine.*;
+import com.academy.automationpractice.kdt.engine.KeywordStep;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
