@@ -21,4 +21,5 @@ public class NavigationHelper {
         new HomePage(driver)
                 .clickSubscribers();
     }
+
 }

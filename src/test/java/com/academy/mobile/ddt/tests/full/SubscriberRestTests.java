@@ -22,20 +22,20 @@ public class SubscriberRestTests extends BaseTest {
     // TODO
     @Test(dataProvider = "modificationProvider")
     public void testModificationSubscriber(Subscriber subscriber, Subscriber modifiedSubscriber) {
-//        if (!manager.rest().subscriber().isPresent(subscriber))
-//            manager.rest().susbcriber().create(subscriber);
-//
-//        Subscribers uiBefore = manager.ui().subscriber().all();
-//        Subscribers dbBefore = manager.ui().subscriber().all();
-//        Subscribers restBefore = manager.ui().subscriber().all();
-//
-//        manager.rest().subscriber().modify(subscriber, modifiedSubscriber);
-//
-//        Subscribers uiAfter = manager.ui().subscriber().all();
-//        Subscribers dbAfter = manager.ui().subscriber().all();
-//        Subscribers restAfter = manager.ui().subscriber().all();
-//
-//        assertThat(restAfter, equalTo(restBefore.withModified(modifiedSubscriber);
+      /*  if (!manager.rest().subscriber().isPresent(subscriber))
+            manager.rest().susbcriber().create(subscriber);
+
+        Subscribers uiBefore = manager.ui().subscriber().all();
+        Subscribers dbBefore = manager.ui().subscriber().all();
+        Subscribers restBefore = manager.ui().subscriber().all();
+
+        manager.rest().subscriber().modify(subscriber, modifiedSubscriber);
+
+        Subscribers uiAfter = manager.ui().subscriber().all();
+        Subscribers dbAfter = manager.ui().subscriber().all();
+        Subscribers restAfter = manager.ui().subscriber().all();
+
+       assertThat(restAfter, equalTo(restBefore.withModified(modifiedSubscriber);*/
     }
 
     @DataProvider

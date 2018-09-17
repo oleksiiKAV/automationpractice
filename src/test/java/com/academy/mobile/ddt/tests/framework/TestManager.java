@@ -1,6 +1,8 @@
 package com.academy.mobile.ddt.tests.framework;
 
 import com.academy.mobile.ddt.tests.framework.helper.NavigationHelper;
+import com.academy.mobile.ddt.tests.framework.model.Subscriber;
+import com.academy.mobile.ddt.tests.framework.page.SubscriberPage;
 import com.academy.util.PropertyManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +18,7 @@ public class TestManager {
     private static final String COMMON = "common";
     private static final String MOBILE = "mobile";
 
-    private UIManager uiManager = new UIManager();
+    public UIManager uiManager = new UIManager();
 
     public void init(String browser) throws IOException  {
         uiManager.init(browser);
@@ -30,11 +32,17 @@ public class TestManager {
         return uiManager;
     }
 
+   // public Object rest() {
+   //     return Subscriber
+
+   // }
+
     public class UIManager {
         private final int DEFAULT_WAIT = 10;
         protected WebDriver driver;
 
         private NavigationHelper navigationHelper;
+        private SubscriberPage subscriberPage;
 
         public void init(String browser) throws IOException {
 
@@ -64,6 +72,9 @@ public class TestManager {
 
         public NavigationHelper goTo() {
             return navigationHelper;
+        }
+        public SubscriberPage click() {
+            return subscriberPage;
         }
     }
 }

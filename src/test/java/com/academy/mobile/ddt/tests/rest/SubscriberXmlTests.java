@@ -68,10 +68,10 @@ public class SubscriberXmlTests {
                 .then()
                     .assertThat()
                         .body("subscriber.id", equalTo("1"))
-//                        .body("subscriber.firstName", equalTo("Иван"))
-//                        .body("subscriber.lastName", equalTo("Петров"))
-//                        .body("subscriber.age", equalTo("33"))
-//                        .body("subscriber.gender", equalTo("m"))
+                        .body("subscriber.firstName", equalTo("Иван"))
+                        .body("subscriber.lastName", equalTo("Петров"))
+                        .body("subscriber.age", equalTo("33"))
+                        .body("subscriber.gender", equalTo("m"))
                     .and()
                         .statusCode(200);
     }
