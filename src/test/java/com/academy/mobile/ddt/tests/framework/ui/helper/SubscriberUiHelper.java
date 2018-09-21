@@ -18,6 +18,7 @@ public class SubscriberUiHelper extends BaseUiHelper {
     public SubscriberUiHelper(WebDriver driver) {
         super(driver);
     }
+
     public Entities<Subscriber> all() {
         SubscriberPage subscriberPage = new SubscriberPage(driver);
         List<Long> idList = subscriberPage.getIdList();

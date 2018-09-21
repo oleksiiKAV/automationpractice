@@ -5,9 +5,9 @@
 <suite name="tests">
     <test name="all">
         <parameter name="browser" value="chrome" />
-        <packages>
+        <classes>
             <!--Запускаем все тесты из пакета 'com.academy.tests.*'-->
-            <package name="com.academy.mobile.ddt.tests.full.*" />
-        </packages>
+            <class name="com.academy.mobile.ddt.tests.full.SubscriberRestTests" />
+        </classes>
     </test>
 </suite>

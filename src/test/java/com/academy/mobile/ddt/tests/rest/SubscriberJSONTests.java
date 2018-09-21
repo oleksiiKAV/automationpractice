@@ -25,14 +25,13 @@ import static com.academy.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class SubscriberJSONTest {
-    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTest.class);
+public class SubscriberJSONTests {
+    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTests.class);
 
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
         RestAssured.port = 8081;
-//        RestAssured.proxy = host("127.0.0.1").withPort(8888);
 
         config = config()
                 .logConfig(new LogConfig()
@@ -116,8 +115,7 @@ public class SubscriberJSONTest {
                 .header("Content-Type", "application/json")
                 .body(json.toJSONString())
                 .post("/subscribers")
-                .then()
-                .assertThat()
+                .then().assertThat()
                 .header("Location", containsString(String.format("http://localhost:%d/rest/json/subscribers", port)))
                 .statusCode(201);
     }
@@ -180,24 +178,14 @@ public class SubscriberJSONTest {
     }
 
     private boolean isPresent(Subscriber subscriber) {
-        try {
-            return
-                    given().log().all()
-                            .header("Content-Type", "application/json")
-                            .when()
-                            .get("/subscribers/{id}", subscriber.getId())
-                            .then()
-                            .assertThat()
-                            .statusCode(200)
-                            .and()
-                            .extract()
-                            .body()
-                            .jsonPath()
-                            .getObject(".", Subscriber.class)
-                            .equals(subscriber);
-        } catch (AssertionError err) {
-            return false;
-        }
+        return
+                given().log().all()
+                        .header("Content-Type", "application/json")
+                        .when()
+                        .get("/subscribers/{id}", subscriber.getId())
+                        .then()
+                        .extract()
+                        .statusCode() == 200;
     }
 
     private void add(Subscriber subscriber) {
@@ -239,18 +227,6 @@ public class SubscriberJSONTest {
                         .id(28L)
                         .firstName("testName")
                         .lastName("lastName")
-                        .age(25)
-                        .gender(Gender.MALE)
-                        .build()
-        };
-    }
-
-    @DataProvider Object[] subscriberFirstProvider() {
-        return new Object[] {
-                Subscriber.newSubscriber()
-                        .id(1L)
-                        .firstName("Peter")
-                        .lastName("Pechking")
                         .age(25)
                         .gender(Gender.MALE)
                         .build()

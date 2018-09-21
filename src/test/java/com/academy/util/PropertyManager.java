@@ -1,5 +1,6 @@
 package com.academy.util;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,6 +9,10 @@ import java.util.Map;
 import java.util.Properties;
 
 public class PropertyManager {
+    public static final String COMMON = "common";
+    public static final String MOBILE = "mobile";
+    public static final String AUTOMATION = "automation";
+
     private Map<String, PropertyWrapper> properties = new HashMap<>();
 
     private static PropertyManager instance;
@@ -27,8 +32,10 @@ public class PropertyManager {
 
         // load properties
         properties.put(name, new PropertyWrapper());
-        InputStream is= PropertyManager.class.getClassLoader().getResourceAsStream(name+".properties");
+        String path = System.getProperty(name + ".cfg");
+
         try {
+            InputStream is= new FileInputStream(path);
             properties.get(name).load(new InputStreamReader(is, "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();

@@ -35,6 +35,12 @@ public class SubscriberRestTests extends BaseTest {
         public void testDeleteSubscriber(Subscriber subscriberDelete){
         manager.rest().subscriber().createIfNotPresent(subscriberDelete);
         Entities<Subscriber> beforeRest = manager.rest().subscriber().all();
+    @Test(dataProvider = "modificationProvider")
+    public void testModificationSubscriber(Subscriber subscriberBefore, Subscriber subscriberAfter) {
+        manager.rest().subscriber().createIfNotPresent(subscriberBefore);
+
+        Entities<Subscriber> before = manager.rest().subscriber().all();
+
         manager.ui().goTo().home();
         manager.ui().goTo().subscribers();
         Entities<Subscriber> beforeUi = manager.ui().subscriber().all();
@@ -50,6 +56,8 @@ public class SubscriberRestTests extends BaseTest {
         assertThat(afterRest,equalTo(afterUi));
 
     }
+        manager.ui().subscriber().verifyEqualTo(before);
+        manager.bd().subscriber().verifyEqualTo(before);
 
     @DataProvider
     private Object [][] deleteProvider(){
@@ -64,6 +72,13 @@ public class SubscriberRestTests extends BaseTest {
                                 .build(),
                 }
         };
+        manager.rest().subscriber().modify(subscriberBefore, subscriberAfter);
+
+        Entities<Subscriber> after  = manager.rest().subscriber().all();
+        assertThat(after, equalTo(before.withModified(subscriberBefore, subscriberAfter)));
+        manager.ui().goTo().reload();
+        manager.ui().subscriber().verifyEqualTo(after);
+        manager.bd().subscriber().verifyEqualTo(after);
     }
 
 
