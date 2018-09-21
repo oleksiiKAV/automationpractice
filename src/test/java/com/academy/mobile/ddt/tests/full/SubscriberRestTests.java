@@ -30,17 +30,14 @@ public class SubscriberRestTests extends BaseTest {
         manager.ui().goTo().reload();
         manager.ui().subscriber().verifyEqualTo(after);
         manager.bd().subscriber().verifyEqualTo(after);
+        manager.ui().subscriber().verifyEqualTo(before);
+        manager.bd().subscriber().verifyEqualTo(before);
+
     }
     @Test (dataProvider ="deleteProvider")
-        public void testDeleteSubscriber(Subscriber subscriberDelete){
+        public void testDeleteSubscriber(Subscriber subscriberDelete) {
         manager.rest().subscriber().createIfNotPresent(subscriberDelete);
         Entities<Subscriber> beforeRest = manager.rest().subscriber().all();
-    @Test(dataProvider = "modificationProvider")
-    public void testModificationSubscriber(Subscriber subscriberBefore, Subscriber subscriberAfter) {
-        manager.rest().subscriber().createIfNotPresent(subscriberBefore);
-
-        Entities<Subscriber> before = manager.rest().subscriber().all();
-
         manager.ui().goTo().home();
         manager.ui().goTo().subscribers();
         Entities<Subscriber> beforeUi = manager.ui().subscriber().all();
@@ -49,16 +46,12 @@ public class SubscriberRestTests extends BaseTest {
         Entities<Subscriber> afterRest = manager.rest().subscriber().all();
         Entities<Subscriber> afterUi = manager.ui().subscriber().all();
         Entities<Subscriber> afterBd = manager.bd().subscriber().all();
-        manager.ui().subscriber().veryficationSize(afterUi,beforeUi);
-        assertThat(beforeRest,equalTo(beforeBd));
-        assertThat(beforeUi,equalTo(beforeBd));
-        assertThat(afterBd,equalTo(afterRest));
-        assertThat(afterRest,equalTo(afterUi));
-
+        manager.ui().subscriber().veryficationSize(afterUi, beforeUi);
+        assertThat(beforeRest, equalTo(beforeBd));
+        assertThat(beforeUi, equalTo(beforeBd));
+        assertThat(afterBd, equalTo(afterRest));
+        assertThat(afterRest, equalTo(afterUi));
     }
-        manager.ui().subscriber().verifyEqualTo(before);
-        manager.bd().subscriber().verifyEqualTo(before);
-
     @DataProvider
     private Object [][] deleteProvider(){
         return new Object[][]{
@@ -72,13 +65,7 @@ public class SubscriberRestTests extends BaseTest {
                                 .build(),
                 }
         };
-        manager.rest().subscriber().modify(subscriberBefore, subscriberAfter);
 
-        Entities<Subscriber> after  = manager.rest().subscriber().all();
-        assertThat(after, equalTo(before.withModified(subscriberBefore, subscriberAfter)));
-        manager.ui().goTo().reload();
-        manager.ui().subscriber().verifyEqualTo(after);
-        manager.bd().subscriber().verifyEqualTo(after);
     }
 
 
