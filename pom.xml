@@ -172,6 +172,10 @@
                                     <name>mobile.cfg</name>
                                     <value>${mobile.config}</value>
                                 </property>
+                                <property>
+                                    <name>common.cfg</name>
+                                    <value>${common.config}</value>
+                                </property>
                             </systemProperties>
                             <properties>
                                 <property>
