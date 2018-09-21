@@ -35,19 +35,19 @@ public class SubscriberRestTests extends BaseTest {
         public void testDeleteSubscriber(Subscriber subscriberDelete){
         manager.rest().subscriber().createIfNotPresent(subscriberDelete);
         Entities<Subscriber> beforeRest = manager.rest().subscriber().all();
-        Entities<Subscriber> beforeUi = manager.ui().subscriber().all();
-        Entities<Subscriber> beforeBd = manager.bd().subscriber().all();
         manager.ui().goTo().home();
         manager.ui().goTo().subscribers();
+        Entities<Subscriber> beforeUi = manager.ui().subscriber().all();
+        Entities<Subscriber> beforeBd = manager.bd().subscriber().all();
         manager.ui().subscriber().deleteSubscriber(subscriberDelete);
         Entities<Subscriber> afterRest = manager.rest().subscriber().all();
         Entities<Subscriber> afterUi = manager.ui().subscriber().all();
         Entities<Subscriber> afterBd = manager.bd().subscriber().all();
         manager.ui().subscriber().veryficationSize(afterUi,beforeUi);
         assertThat(beforeRest,equalTo(beforeBd));
-       // assertThat(beforeUi,equalTo(beforeBd));
+        assertThat(beforeUi,equalTo(beforeBd));
         assertThat(afterBd,equalTo(afterRest));
-       // assertThat(afterRest,equalTo(afterUi));
+        assertThat(afterRest,equalTo(afterUi));
 
     }
 
