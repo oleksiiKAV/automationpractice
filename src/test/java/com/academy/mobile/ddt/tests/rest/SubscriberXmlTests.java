@@ -68,10 +68,10 @@ public class SubscriberXmlTests {
                 .then()
                     .assertThat()
                         .body("subscriber.id", equalTo("1"))
-                        .body("subscriber.firstName", equalTo("Иван"))
-                        .body("subscriber.lastName", equalTo("Петров"))
-                        .body("subscriber.age", equalTo("33"))
-                        .body("subscriber.gender", equalTo("m"))
+//                        .body("subscriber.firstName", equalTo("Иван"))
+//                        .body("subscriber.lastName", equalTo("Петров"))
+//                        .body("subscriber.age", equalTo("33"))
+//                        .body("subscriber.gender", equalTo("m"))
                     .and()
                         .statusCode(200);
     }
@@ -157,13 +157,24 @@ public class SubscriberXmlTests {
     }
 
     private boolean isPresent(Subscriber subscriber) {
-        return
+        try {
+            return
                 given().log().all()
                         .when()
                             .get("/subscribers/{id}", subscriber.getId())
                         .then()
+                            .assertThat()
+                            .statusCode(200)
+                        .and()
                             .extract()
-                            .statusCode() == 200;
+                            .body()
+                            .xmlPath()
+                            .getObject(".", Subscriber.class)
+                            .equals(subscriber);
+
+        } catch (AssertionError err) {
+            return false;
+        }
     }
 
     private void add(Subscriber subscriber) {

@@ -47,12 +47,12 @@ public class AddressTests extends BaseTest {
                         .withLastName("Ivanov")
                         .withAddress("Petrovskogo st. 35")
                         .withCity("Kharkov")
-                        .withState("Arizona")
+                        .withState("Alaska")
                         .withZipCode("61033")
                         .withCountry("United States")
                         .withHomePhone("+3809353613437")
                         .withMobilePhone("093234567")
-                        .withAddressAlias("addressAddedRef22")
+                        .withAddressAlias("addressAddedRef")
         };
     }
 }

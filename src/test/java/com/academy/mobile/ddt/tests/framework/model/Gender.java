@@ -27,6 +27,17 @@ public enum Gender {
         return null;
     }
 
+    public static Gender fromRu(char ru) {
+        switch (ru) {
+            case 'ж':
+                return Gender.FEMALE;
+
+            case 'м':
+                return Gender.MALE;
+        }
+        return null;
+    }
+
     public Character toChar() {
         switch (this) {
             case MALE:

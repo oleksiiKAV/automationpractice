@@ -1,14 +1,14 @@
 package com.academy.automationpractice.kdt;
 
 import com.academy.automationpractice.kdt.engine.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class BaseKDTTest {
-    protected static final Logger LOG = LogManager.getLogger(BaseKDTTest.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(BaseKDTTest.class);
 
     private KeywordIdentity baseKW;
     private KeywordHomeIdentity homeKW;

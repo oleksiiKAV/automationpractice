@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
@@ -62,6 +63,13 @@ public class BasePage {
                 .toString().equals("complete");
 
         return wait.until(jQueryLoad) && wait.until(jsLoad);
+    }
+
+    public static void waitForPageLoadComplete(WebDriver driver, int specifiedTimeout) {
+        Wait<WebDriver> wait = new WebDriverWait(driver, specifiedTimeout);
+        wait.until(driver1 -> String
+                .valueOf(((JavascriptExecutor) driver1).executeScript("return document.readyState"))
+                .equals("complete"));
     }
 
     protected  void alertAccept(boolean accept) {

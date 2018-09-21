@@ -36,7 +36,6 @@ public class TestManager {
     private BrowserMobProxy proxy;
 
     private NavigationHelper navigationHelper;
-    private DressHelper dressHelper;
     private SessionHelper sessionHelper;
     private AccountHelper accountHelper;
     private VerifyHelper verifyHelper;
@@ -89,7 +88,6 @@ public class TestManager {
         accountHelper = new AccountHelper(driver);
         addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
-        dressHelper = new DressHelper(driver);
     }
 
     public void stop() {
@@ -103,16 +101,6 @@ public class TestManager {
     public NavigationHelper goTo() {
         return navigationHelper;
     }
-
-    public DressHelper mark() {
-        return dressHelper;
-    }
-    public DressHelper verifyty() {
-        return dressHelper;
-    }
-
-
-
 
     public SessionHelper session() {
         return sessionHelper;
