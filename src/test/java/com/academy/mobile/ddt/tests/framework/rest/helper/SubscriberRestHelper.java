@@ -120,6 +120,12 @@ public class SubscriberRestHelper {
         }
     }
 
+    public void deleteIfPresent(Subscriber subscriber) {
+        if (isPresent(subscriber)) {
+            remove(subscriber);
+        }
+    }
+
     private void remove(Subscriber subscriber) {
         given().log().all()
                 .delete("/subscribers/{id}", subscriber.getId());
