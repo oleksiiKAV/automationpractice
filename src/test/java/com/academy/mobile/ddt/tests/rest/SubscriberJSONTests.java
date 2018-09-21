@@ -31,7 +31,7 @@ public class SubscriberJSONTests {
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
-        RestAssured.port = 8091;
+        RestAssured.port = 8081;
 //        RestAssured.proxy = host("127.0.0.1").withPort(8888);
 
         config = config()

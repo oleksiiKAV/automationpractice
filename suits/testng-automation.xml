@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--Конфигурация для testNG фреймворка-->
+<suite name="tests">
+    <test name="all">
+        <parameter name="browser" value="chrome" />
+        <classes>
+            <!--Запускаем все тесты из пакета 'com.academy.tests.*'-->
+            <class name="com.academy.automationpractice.ddt.tests.LoginTests" />
+        </classes>
+    </test>
+</suite>

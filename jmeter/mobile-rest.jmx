@@ -570,7 +570,7 @@ log.info(&quot;after: &quot; + vars.get(&quot;after&quot;));</stringProp>
 log.info(&quot;BEFORE: &quot; + vars.get(&quot;before&quot;));
 log.info(&quot;AFTER: &quot; + vars.get(&quot;after&quot;));
 
-List</stringProp>
+</stringProp>
             <stringProp name="BeanShellAssertion.filename"></stringProp>
             <stringProp name="BeanShellAssertion.parameters"></stringProp>
             <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
@@ -652,7 +652,7 @@ List</stringProp>
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Present Controller" enabled="true">
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If SubscriberPresent" enabled="true">
             <stringProp name="IfController.condition">&quot;${status}&quot;==&quot;200&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
