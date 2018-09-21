@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Properties;
 
 public class PropertyManager {
+    public static final String COMMON = "common";
+    public static final String MOBILE = "mobile";
+    public static final String AUTOMATION = "automation";
+
     private Map<String, PropertyWrapper> properties = new HashMap<>();
 
     private static PropertyManager instance;

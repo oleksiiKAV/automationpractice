@@ -25,8 +25,8 @@ import static com.academy.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class SubscriberJSONTest {
-    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTest.class);
+public class SubscriberJSONTests {
+    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTests.class);
 
     @BeforeClass
     public void setUp() {

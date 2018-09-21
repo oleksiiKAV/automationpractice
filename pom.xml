@@ -78,6 +78,18 @@
             <version>3.1.1</version>
         </dependency>
 
+        <!--JMeter-->
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_java</artifactId>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_http</artifactId>
+            <version>4.0</version>
+        </dependency>
+
         <!--MySql connector-->
         <dependency>
             <groupId>mysql</groupId>
