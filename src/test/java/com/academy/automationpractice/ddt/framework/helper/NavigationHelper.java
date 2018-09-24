@@ -25,4 +25,9 @@ public class NavigationHelper {
         new HomePage(driver)
                 .clickWomenPageLink();
     }
+
+    public void dresses(){
+        new HomePage(driver)
+                .clickDressesLink();
+    }
 }

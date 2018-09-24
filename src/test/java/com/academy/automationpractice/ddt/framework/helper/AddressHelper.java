@@ -71,6 +71,13 @@ public class AddressHelper {
         fillForm(address);
         submit();
     }
+
+    public void modify(AddressData address){
+        initModifyAddress();
+        fillForm(address);
+        submit();
+    }
+
     public int count() {
         return new AddressPage(driver).countAddresses();
     }
@@ -98,5 +105,10 @@ public class AddressHelper {
     private void initCreation() {
         new AddressPage(driver)
                 .clickByAddNewAddress();
+    }
+
+    private void initModifyAddress(){
+        new AddressPage(driver)
+                .clickUpdateButton();
     }
 }
