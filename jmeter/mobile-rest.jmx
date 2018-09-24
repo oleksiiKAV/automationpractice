@@ -401,15 +401,17 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="id" elementType="Argument">
-              <stringProp name="Argument.name">id</stringProp>
-              <stringProp name="Argument.value">100</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
+        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
+          <stringProp name="delimiter">,</stringProp>
+          <stringProp name="fileEncoding"></stringProp>
+          <stringProp name="filename">D:\programming\qa\QA-JA-04\jmeter\subscriberAddData.csv</stringProp>
+          <boolProp name="ignoreFirstLine">false</boolProp>
+          <boolProp name="quotedData">false</boolProp>
+          <boolProp name="recycle">true</boolProp>
+          <stringProp name="shareMode">shareMode.all</stringProp>
+          <boolProp name="stopThread">false</boolProp>
+          <stringProp name="variableNames">id,firstName,lastName,age,gender</stringProp>
+        </CSVDataSet>
         <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -487,7 +489,7 @@ log.info(&quot;before: &quot; + vars.get(&quot;before&quot;));</stringProp>
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;id&quot;:${id},&quot;firstName&quot;:&quot;Vasilisa&quot;,&quot;lastName&quot;:&quot;Polzunkova&quot;,&quot;age&quot;:23,&quot;gender&quot;:&quot;f&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;id&quot;:${id},&quot;firstName&quot;:&quot;${firstName}&quot;,&quot;lastName&quot;:&quot;${lastName}&quot;,&quot;age&quot;:${age},&quot;gender&quot;:&quot;${gender}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -566,9 +568,70 @@ log.info(&quot;after: &quot; + vars.get(&quot;after&quot;));</stringProp>
           </BeanShellPostProcessor>
           <hashTree/>
           <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="true">
-            <stringProp name="BeanShellAssertion.query">log.info(&quot;*********REPORT*********&quot;);
-log.info(&quot;BEFORE: &quot; + vars.get(&quot;before&quot;));
-log.info(&quot;AFTER: &quot; + vars.get(&quot;after&quot;));
+            <stringProp name="BeanShellAssertion.query">import com.eclipsesource.json.*;
+import com.academy.model.*;
+import java.util.ArrayList;
+
+// Before List
+HashSet before = new HashSet();
+JsonValue beforeJsonValue = Json.parse(vars.get(&quot;before&quot;));
+JsonArray beforeJsonArray = beforeJsonValue.asArray();
+
+for (int i = 0; i &lt; beforeJsonArray.size(); i++) {
+	Subscriber subscriber = Subscriber.newSubscriber()
+			.id(beforeJsonArray.get(i).asObject().get(&quot;id&quot;).asLong())
+			.firstName(beforeJsonArray.get(i).asObject().get(&quot;firstName&quot;).asString())
+			.lastName(beforeJsonArray.get(i).asObject().get(&quot;lastName&quot;).asString())
+			.age(beforeJsonArray.get(i).asObject().get(&quot;age&quot;).asInt())
+			.gender(beforeJsonArray.get(i).asObject().get(&quot;gender&quot;).asString())
+			.build();
+
+	before.add(subscriber);
+}
+
+// After List
+HashSet after = new HashSet();
+JsonValue afterJsonValue = Json.parse(vars.get(&quot;after&quot;));
+JsonArray afterJsonArray = afterJsonValue.asArray();
+
+for (int i = 0; i &lt; afterJsonArray.size(); i++) {
+	Subscriber subscriber = Subscriber.newSubscriber()
+			.id(afterJsonArray.get(i).asObject().get(&quot;id&quot;).asLong())
+			.firstName(afterJsonArray.get(i).asObject().get(&quot;firstName&quot;).asString())
+			.lastName(afterJsonArray.get(i).asObject().get(&quot;lastName&quot;).asString())
+			.age(afterJsonArray.get(i).asObject().get(&quot;age&quot;).asInt())
+			.gender(afterJsonArray.get(i).asObject().get(&quot;gender&quot;).asString())
+			.build();
+
+	after.add(subscriber);
+}
+
+log.info(&quot;*********REPORT_FINAL*********&quot;);
+log.info(&quot;BEFORE: &quot; + before);
+log.info(&quot;AFTER: &quot; + after);
+
+// add created subscriber to before list
+Subscriber subscriber = Subscriber.newSubscriber()
+			.id(Long.valueOf(vars.get(&quot;id&quot;)))
+			.firstName(vars.get(&quot;firstName&quot;))
+			.lastName(vars.get(&quot;lastName&quot;))
+			.age(Integer.valueOf(vars.get(&quot;age&quot;)))
+			.gender(vars.get(&quot;gender&quot;))
+			.build();
+			
+before.add(subscriber);
+
+log.info(&quot;SUBSCRIBER: &quot; + subscriber);
+
+if (after.equals(before)) {
+	SampleResult.setResponseMessage(&quot;Before equals to after&quot;);
+} else {
+	Failure=true;
+	FailureMessage = &quot;Not equals before and after lists&quot;;
+}
+
+
+
 
 </stringProp>
             <stringProp name="BeanShellAssertion.filename"></stringProp>
