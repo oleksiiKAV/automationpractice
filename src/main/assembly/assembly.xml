@@ -18,7 +18,7 @@
             <directory>data</directory>
             <outputDirectory>data</outputDirectory>
             <includes>
-                <include>*.feature</include>
+                <include>**/*.feature</include>
                 <include>*.xlsx</include>
                 <include>*.csv</include>
                 <include>*.json</include>
@@ -32,6 +32,22 @@
             <includes>
                 <include>*.bat</include>
                 <include>*.sh</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>jmeter</directory>
+            <outputDirectory>jmeter</outputDirectory>
+            <includes>
+                <include>*.csv</include>
+                <include>*.jmx</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>soap</directory>
+            <outputDirectory>soap-ui</outputDirectory>
+            <includes>
+                <include>*.csv</include>
+                <include>*.xml</include>
             </includes>
         </fileSet>
         <fileSet>

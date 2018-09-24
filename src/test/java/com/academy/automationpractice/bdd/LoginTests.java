@@ -9,7 +9,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 @CucumberOptions(
-        features = {"src/main/resources/features"},
+        features = {"data/features"},
         glue = "com.academy.automationpractice.bdd.stepdefs" ,
         format = {
                 "pretty",
