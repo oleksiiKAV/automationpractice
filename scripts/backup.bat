@@ -1,9 +1,9 @@
 ::echo off
     ::set fName=@artifact@-@version@
-    set fName=automation-practice-1.0
+    set fName=java-part-1.0-SNAPSHOT
     set fExt=.zip
     ::set rootDir=d:\programming\qa\seleniumtest\target
-    set rootDir=%HOMEDRIVE%%HOMEPATH%\.jenkins\workspace\automationpractice-03\target
+    set rootDir=%HOMEDRIVE%%HOMEPATH%\.jenkins\workspace\automation-final-04\target
     set src=%rootDir%\%fName%%fExt%
 setlocal
     call :copyBackup
@@ -11,7 +11,7 @@ setlocal
 goto :EOF
 
 :copyBackup
-    set backupDir=%HOMEDRIVE%%HOMEPATH%\Documents\automationpractice-03\backup
+    set backupDir=%HOMEDRIVE%%HOMEPATH%\Documents\automation-final-04\backup
     if not exist "%backupDir%" mkdir %backupDir%
     set fNameSuffix=
     call :assignTime fNameSuffix
@@ -39,7 +39,7 @@ goto :EOF
 
 :makeBuild
    echo build
-   set buildDir=%HOMEDRIVE%%HOMEPATH%\Documents\automationpractice-03\build
+   set buildDir=%HOMEDRIVE%%HOMEPATH%\Documents\automation-final-04\build
 
    :: delete previos build dir if exist
    if not exist "%buildDir%" mkdir %buildDir%
