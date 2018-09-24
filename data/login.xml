@@ -1,0 +1,17 @@
+<list>
+  <data>
+    <login>oleg.kh81@gmail.com</login>
+    <password>123</password>
+    <msg>Invalid password.</msg>
+  </data>
+  <data>
+    <login>123</login>
+    <password>123qwerty</password>
+    <msg>Invalid email address.</msg>
+  </data>
+  <data>
+    <login></login>
+    <password>123</password>
+    <msg>An email address required.</msg>
+  </data>
+</list>
