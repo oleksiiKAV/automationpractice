@@ -25,13 +25,13 @@ import static com.academy.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class SubscriberJSONTest {
-    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTest.class);
+public class SubscriberJSONTests {
+    private static final Logger LOG = LogManager.getLogger(SubscriberJSONTests.class);
 
     @BeforeClass
     public void setUp() {
         RestAssured.baseURI = "http://localhost/rest/json";
-        RestAssured.port = 8081;
+        RestAssured.port = 8091;
 //        RestAssured.proxy = host("127.0.0.1").withPort(8888);
 
         config = config()
