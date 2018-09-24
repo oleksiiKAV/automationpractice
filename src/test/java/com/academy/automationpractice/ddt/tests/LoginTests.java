@@ -9,6 +9,9 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "authProvider")
@@ -24,11 +27,15 @@ public class LoginTests extends BaseTest {
         System.out.println("Complete 'testAuthCorrect'");
     }
 
-    @Test(dataProvider = "negativeAuthExcelProvider", enabled = false)
+    @Test(dataProvider = "incorrectLoginProvider")
     // TODO
-    public void testAuthIncorrect(String email, String password, String errorMsg) {
+    public void testAuthIncorrect(String email, String password, String errorMsgExpected) {
         System.out.println("Start 'testAuthIncorrect'");
-        System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsg));
+        System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsgExpected));
+        manager.goTo().home();
+        manager.session().loginAs(email, password);
+        String errMessageActual = manager.session().getErrMessage();
+        assertThat(errMessageActual, equalTo(errorMsgExpected));
         System.out.println("Complete 'testAuthIncorrect'");
     }
 
@@ -39,8 +46,8 @@ public class LoginTests extends BaseTest {
         };
     }
 
-    @DataProvider(name = "negativeAuthExcelProvider")
-    public Object[][] negativeAuthExcelProvider() {
+    @DataProvider(name = "incorrectLoginProvider")
+    public Object[][] provideIncorrectAuthData() {
         String authDataPath = PropertyManager.from("automation").getProperty("auth.incorrect.data");
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(authDataPath)) {
