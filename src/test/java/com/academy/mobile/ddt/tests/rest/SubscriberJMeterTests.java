@@ -1,6 +1,5 @@
 package com.academy.mobile.ddt.tests.rest;
 
-import com.academy.mobile.ddt.tests.soap.SubscriberSoapTests;
 import com.academy.util.PropertyManager;
 import org.apache.jmeter.JMeter;
 import org.apache.jmeter.engine.StandardJMeterEngine;
@@ -25,7 +24,7 @@ import static com.academy.util.PropertyManager.COMMON;
 import static com.academy.util.PropertyManager.MOBILE;
 
 public class SubscriberJMeterTests {
-    private static final Logger LOG = LogManager.getLogger(SubscriberSoapTests.class);
+    private static final Logger LOG = LogManager.getLogger(SubscriberJMeterTests.class);
 
     private StandardJMeterEngine jmeter;
     private SampleResult sampleResult;

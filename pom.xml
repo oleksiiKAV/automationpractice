@@ -8,14 +8,6 @@
     <artifactId>java-part</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>smartbear</id>
-            <name>smartbear repository</name>
-            <url>http://smartbearsoftware.com/repository/maven2</url>
-        </repository>
-    </repositories>
-
     <!--Базовые свойства-->
     <properties>
         <!--Версия jdk-->
@@ -41,24 +33,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
-        </dependency>
-        <!--Logger -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.11.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.11.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-iostreams</artifactId>
-            <version>2.10.0</version>
         </dependency>
 
         <!--Selenium + WebDriver-->
@@ -119,14 +93,6 @@
             <version>4.0</version>
         </dependency>
 
-        <!--SoapUI-->
-        <dependency>
-            <groupId>com.smartbear.soapui</groupId>
-            <artifactId>soapui</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--MySql connector-->
         <dependency>
             <groupId>mysql</groupId>
@@ -167,6 +133,22 @@
             <version>1.4.10</version>
         </dependency>
 
+        <!--Logger -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-iostreams</artifactId>
+            <version>2.10.0</version>
+        </dependency>
 
     </dependencies>
 

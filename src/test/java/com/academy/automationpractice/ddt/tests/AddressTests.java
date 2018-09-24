@@ -2,10 +2,10 @@ package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import com.academy.automationpractice.ddt.framework.model.Addresses;
-import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.util.Set;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
