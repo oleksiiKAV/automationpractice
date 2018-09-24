@@ -40,6 +40,7 @@ public class TestManager {
     private AccountHelper accountHelper;
     private VerifyHelper verifyHelper;
     private AddressHelper addressHelper;
+    private WomenHelper womenHelper;
 
     public void init(String browser) throws IOException {
 
@@ -88,6 +89,7 @@ public class TestManager {
         accountHelper = new AccountHelper(driver);
         addressHelper = new AddressHelper(driver);
         verifyHelper = new VerifyHelper(driver);
+        womenHelper = new WomenHelper(driver);
     }
 
     public void stop() {
@@ -117,6 +119,8 @@ public class TestManager {
     public AddressHelper address() {
         return addressHelper;
     }
+
+    public  WomenHelper women(){return  womenHelper;}
 
     public WebDriver getDriver() {
         return driver;

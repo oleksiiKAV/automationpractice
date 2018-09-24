@@ -11,13 +11,17 @@ import java.io.IOException;
 
 public class LoginTests extends BaseTest {
 
-    @Test(dataProvider = "authProvider")
+    @Test(dataProvider = "authProvider", enabled = false)
     public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
+        System.out.println("Start 'testAuthCorrect'");
+
         manager.goTo().home();
         manager.session().login();
 
         manager.verify().userIsLoggedIn(userNameExpected);
         manager.session().logout();
+
+        System.out.println("Complete 'testAuthCorrect'");
     }
 
     @Test(dataProvider = "negativeAuthExcelProvider", enabled = false)

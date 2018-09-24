@@ -17,8 +17,8 @@ public class PrepareJsonXML {
     public static void main(String[] args) {
         String path = System.getProperty("user.dir") + "/data/login";
 
-        data.add(new LoginData("oleg.kh81@gmail.com", "123", "Invalid password."));
-        data.add(new LoginData("123", "123qwerty", "Invalid email address."));
+        data.add(new LoginData("dimabologov@gmail.com", "456456Qwerty", "Invalid password."));
+        data.add(new LoginData("123", "456456Qwerty", "Invalid email address."));
         data.add(new LoginData("", "123", "An email address required."));
 
         prepareJson(path+".json", data);

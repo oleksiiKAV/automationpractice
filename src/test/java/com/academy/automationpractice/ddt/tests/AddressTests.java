@@ -2,13 +2,13 @@ package com.academy.automationpractice.ddt.tests;
 
 import com.academy.automationpractice.ddt.framework.model.AddressData;
 import com.academy.automationpractice.ddt.framework.model.Addresses;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
-import static com.academy.util.MatcherAssertExt.assertThat;
+import java.util.Set;
+
 import static org.hamcrest.CoreMatchers.equalTo;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AddressTests extends BaseTest {
 
@@ -33,8 +33,24 @@ public class AddressTests extends BaseTest {
         // verify
         assertThat(manager.address().count(), equalTo(before.size()+1));
         Addresses after = manager.address().all();
-
         assertThat(after, equalTo(before.withAdded(address.withUpperCaseAlias())));
+
+        System.out.println("complete 'testAddAddress'");
+    }
+
+    @Test(dataProvider = "creationAddress")
+    public void testDellAddress(AddressData address) {
+
+        if (manager.address().isPresentAlias(address.getAlias())) {
+            manager.address().remove(address.getAlias());
+
+        }
+        manager.address().create(address);
+        Addresses before = manager.address().all();
+        manager.address().remove(address.getAlias());
+
+        // verify
+        assertThat(manager.address().count(), equalTo(before.size()-1));
 
         System.out.println("complete 'testAddAddress'");
     }
@@ -54,5 +70,9 @@ public class AddressTests extends BaseTest {
                         .withMobilePhone("093234567")
                         .withAddressAlias("addressAddedRef")
         };
+    }
+    @AfterMethod
+    public void logout(){
+        manager.session().logout();
     }
 }

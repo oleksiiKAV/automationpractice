@@ -28,9 +28,9 @@ public class Entities<T> extends ForwardingSet<T> {
         return entities;
     }
 
-    public Entities<T> without(T address) {
+    public Entities<T> without(T entity) {
         Entities<T> entities = new Entities(this);
-        entities.remove(address);
+        entities.remove(entity);
         return entities;
     }
 
@@ -40,5 +40,6 @@ public class Entities<T> extends ForwardingSet<T> {
         entities.add(entityAfter);
         return entities;
     }
+
 }
 
