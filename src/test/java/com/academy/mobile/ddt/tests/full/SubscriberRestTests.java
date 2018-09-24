@@ -30,7 +30,45 @@ public class SubscriberRestTests extends BaseTest {
         manager.ui().goTo().reload();
         manager.ui().subscriber().verifyEqualTo(after);
         manager.bd().subscriber().verifyEqualTo(after);
+        manager.ui().subscriber().verifyEqualTo(before);
+        manager.bd().subscriber().verifyEqualTo(before);
+
     }
+    @Test (dataProvider ="deleteProvider")
+        public void testDeleteSubscriber(Subscriber subscriberDelete) {
+        manager.rest().subscriber().createIfNotPresent(subscriberDelete);
+        Entities<Subscriber> beforeRest = manager.rest().subscriber().all();
+        manager.ui().goTo().home();
+        manager.ui().goTo().subscribers();
+        Entities<Subscriber> beforeUi = manager.ui().subscriber().all();
+        Entities<Subscriber> beforeBd = manager.bd().subscriber().all();
+        manager.ui().subscriber().deleteSubscriber(subscriberDelete);
+        Entities<Subscriber> afterRest = manager.rest().subscriber().all();
+        Entities<Subscriber> afterUi = manager.ui().subscriber().all();
+        Entities<Subscriber> afterBd = manager.bd().subscriber().all();
+        manager.ui().subscriber().veryficationSize(afterUi, beforeUi);
+        assertThat(beforeRest, equalTo(beforeBd));
+        assertThat(beforeUi, equalTo(beforeBd));
+        assertThat(afterBd, equalTo(afterRest));
+        assertThat(afterRest, equalTo(afterUi));
+    }
+    @DataProvider
+    private Object [][] deleteProvider(){
+        return new Object[][]{
+                {
+                        Subscriber.newSubscriber()
+                                .id(242)
+                                .firstName("Dfcbkbq")
+                                .lastName("Gtnhjd")
+                                .age(25)
+                                .gender(MALE)
+                                .build(),
+                }
+        };
+
+    }
+
+
 
     @DataProvider
     private Object[][] modificationProvider() {

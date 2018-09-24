@@ -4,11 +4,13 @@ import com.academy.mobile.ddt.tests.framework.model.Entities;
 import com.academy.mobile.ddt.tests.framework.model.Gender;
 import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import com.academy.mobile.ddt.tests.framework.ui.page.SubscriberPage;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
 import static com.academy.util.MatcherAssertExt.assertThat;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class SubscriberUiHelper extends BaseUiHelper {
@@ -39,11 +41,46 @@ public class SubscriberUiHelper extends BaseUiHelper {
 
         return subscribers;
     }
+    private boolean isPresent(Subscriber subscriber) {
+        try {
+            return
+                    given().log().all()
+                            .header("Content-Type", "application/json")
+                            .when()
+                            .get("/subscribers/{id}", subscriber.getId())
+                            .then()
+                            .assertThat()
+                            .statusCode(200)
+                            .and()
+                            .extract()
+                            .body()
+                            .jsonPath()
+                            .getObject(".", Subscriber.class)
+                            .equals(subscriber);
+        } catch (AssertionError err) {
+            return false;
+        }
+    }
+
 
     public void verifyEqualTo(Entities<Subscriber> expected) {
         if (!uiMode)
             return;
 
         assertThat(all(), equalTo(expected));
+    }
+
+
+    public boolean veryficationSize(Entities<Subscriber> afterUi, Entities<Subscriber> beforeUi) {
+        if (afterUi.size() == beforeUi.size() +1 )
+            return true;
+        else return false;
+
+    }
+
+    public void deleteSubscriber(Subscriber subscriberDelete) {
+        new SubscriberPage(driver)
+               .clickId()
+               .clickDelete();
     }
 }

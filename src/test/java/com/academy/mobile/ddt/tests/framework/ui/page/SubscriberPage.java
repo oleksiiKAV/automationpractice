@@ -26,6 +26,12 @@ public class SubscriberPage extends BasePage {
     @FindBy(css="body > div > div:nth-child(4) > div > table > tbody > tr > td:nth-child(6)")
     private List<WebElement> genderList;
 
+    @FindBy(id = "242")
+    private WebElement id;
+
+    @FindBy(id = "del")
+    private WebElement delete;
+
     public SubscriberPage(WebDriver driver) {
         super(driver);
     }
@@ -72,5 +78,15 @@ public class SubscriberPage extends BasePage {
                         .map(String::trim)
                         .map(Integer::valueOf)
                         .collect(Collectors.toList());
+    }
+    public SubscriberPage clickId() {
+        id.click();
+        return new SubscriberPage(driver);
+
+    }
+    public SubscriberPage clickDelete(){
+        delete.click();
+        return new SubscriberPage(driver);
+
     }
 }

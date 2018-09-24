@@ -11,6 +11,6 @@ Feature: Тестируем страницу авторизации
     Then должен увидеть сообщение об ошибке '<сообщение>'
 
     Examples:
-      | логин                 | пароль        | сообщение                   |
-      | oleg.kh81@gmail.com   |123            |Invalid password.            |
-      | 123                   |123qwerty      |Invalid email address.       |
+      | логин                    | пароль        | сообщение                   |
+      | yavoric@rambler.ru.com   |123            |Invalid password.            |
+      | 123                      |123qwerty      |Invalid email address.       |
