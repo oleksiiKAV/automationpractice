@@ -30,7 +30,6 @@ public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "incorrectLoginProvider")
     // TODO
-    @Ignore
     public void testAuthIncorrect(String email, String password, String errorMsgExpected) {
         System.out.println("Start 'testAuthIncorrect'");
         System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsgExpected));
