@@ -10,40 +10,32 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static com.academy.util.MatcherAssertExt.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "authProvider")
     public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
-        System.out.println("Start 'testAuthCorrect'");
-
         manager.goTo().home();
         manager.session().login();
 
         manager.verify().userIsLoggedIn(userNameExpected);
         manager.session().logout();
-
-        System.out.println("Complete 'testAuthCorrect'");
     }
 
     @Test(dataProvider = "incorrectLoginProvider")
-    // TODO
-    public void testAuthIncorrect(String email, String password, String errorMsgExpected) {
-        System.out.println("Start 'testAuthIncorrect'");
-        System.out.println(String.format("email: %s, password:%s, errorMsg:%s", email, password, errorMsgExpected));
+       public void testAuthIncorrect(String email, String password, String errorMsgExpected) {
         manager.goTo().home();
         manager.session().loginAs(email, password);
         String errMessageActual = manager.session().getErrMessage();
         assertThat(errMessageActual, equalTo(errorMsgExpected));
-        System.out.println("Complete 'testAuthIncorrect'");
     }
 
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.from("automation").getProperty("username"), PropertyManager.from("automation").getProperty("automation.password"), "OLEG AFANASIEV"}
+                {PropertyManager.from("automation").getProperty("username"), PropertyManager.from("automation").getProperty("password"), "OLEG AFANASIEV"}
         };
     }
 

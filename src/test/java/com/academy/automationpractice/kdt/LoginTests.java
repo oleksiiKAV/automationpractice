@@ -62,7 +62,7 @@ public class LoginTests extends BaseTest {
                 .withPage("account")
                 .withAction("ASSERT")
                 .withObject("usernameLinkText")
-                .withValue("Oleg Afanasiev"));
+                .withValue("OLEG AFANASIEV"));
 
         steps.add(new KeywordStep()
                 .withPage("account")

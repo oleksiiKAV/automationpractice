@@ -10,5 +10,5 @@ Feature: Login Profile
     When I fill login 'yavoric@rambler.ru'
     And I fill password '123qwerty'
     And click signIn button
-    Then I should see 'Oleg Afanasiev' link
+    Then I should see 'OLEG AFANASIEV' link
     Then I should make logout

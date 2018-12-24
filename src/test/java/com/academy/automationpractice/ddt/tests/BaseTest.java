@@ -26,7 +26,7 @@ public class BaseTest {
     @BeforeMethod
     public void logTestStart(Method method, Object[] params) {
         LOG.info("Start test {} with parameters {}",
-                method.getName(), Arrays.asList(params));
+                method.getName(), Arrays.toString(params));
     }
 
     @AfterMethod(alwaysRun = true)
