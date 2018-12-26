@@ -27,6 +27,8 @@ import java.util.logging.Level;
 public class TestManager {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
     protected static final Logger LOG_BROWSER = LogManager.getLogger("BROWSER");
+    protected static final Logger LOG_PERFORMANCE = LogManager.getLogger("PERFORMANCE");
+    protected static final Logger LOG_TRAFFIC = LogManager.getLogger("TRAFFIC");
 
     private static int DEFAULT_WAIT = 30;
     private static String AUTOMATION = "automation";
@@ -95,7 +97,7 @@ public class TestManager {
     public void stop() {
         if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.proxy"))) {
             Har har = proxy.endHar();
-            har.getLog().getEntries().forEach(l -> LOG.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
+            har.getLog().getEntries().forEach(l -> LOG_TRAFFIC.debug(l.getResponse().getStatus() + ":" + l.getRequest().getUrl()));
         }
         driver.quit();
     }
@@ -149,11 +151,15 @@ public class TestManager {
         public void afterNavigateTo(String url, WebDriver driver) {
             LOG.debug("Navigated to {}", url);
 
-            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.browser")))
+            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.browser"))) {
+                LOG_BROWSER.debug("Navigated to {}", url);
                 driver.manage().logs().get("browser").forEach(LOG_BROWSER::debug);
+            }
 
-            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.performance")))
-                driver.manage().logs().get("performance").forEach(LOG::debug);
+            if (Boolean.parseBoolean(PropertyManager.from(AUTOMATION).getProperty("log.performance"))) {
+                LOG_PERFORMANCE.debug("Navigated to {}", url);
+                driver.manage().logs().get("performance").forEach(LOG_PERFORMANCE::debug);
+            }
         }
 
         private void makeScreenshot() {

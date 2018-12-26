@@ -17,7 +17,7 @@ public class MatcherAssertExt {
             Field field = isEqualInstanceFromMatcher.getClass().getDeclaredField("expectedValue");
             field.setAccessible(true);
             Object expected = field.get(isEqualInstanceFromMatcher);
-            LOG.info("assert that '{}' equal to '{}'", actual, expected);
+            LOG.info("assert that actual '{}' equal to expected '{}'", actual, expected);
             org.hamcrest.MatcherAssert.assertThat("", actual, matcher);
         } catch (AssertionError e) {
             LOG.error(e.getMessage());
