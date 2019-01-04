@@ -46,7 +46,7 @@ public class SubscriberRestTests extends BaseTest {
         Entities<Subscriber> afterRest = manager.rest().subscriber().all();
         Entities<Subscriber> afterUi = manager.ui().subscriber().all();
         Entities<Subscriber> afterBd = manager.bd().subscriber().all();
-        manager.ui().subscriber().veryficationSize(afterUi, beforeUi);
+        manager.ui().subscriber().verifyBySize(afterUi, beforeUi);
         assertThat(beforeRest, equalTo(beforeBd));
         assertThat(beforeUi, equalTo(beforeBd));
         assertThat(afterBd, equalTo(afterRest));

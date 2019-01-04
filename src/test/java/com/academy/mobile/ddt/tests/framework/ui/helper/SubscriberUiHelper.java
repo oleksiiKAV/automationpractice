@@ -4,7 +4,6 @@ import com.academy.mobile.ddt.tests.framework.model.Entities;
 import com.academy.mobile.ddt.tests.framework.model.Gender;
 import com.academy.mobile.ddt.tests.framework.model.Subscriber;
 import com.academy.mobile.ddt.tests.framework.ui.page.SubscriberPage;
-import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -71,7 +70,7 @@ public class SubscriberUiHelper extends BaseUiHelper {
     }
 
 
-    public boolean veryficationSize(Entities<Subscriber> afterUi, Entities<Subscriber> beforeUi) {
+    public boolean verifyBySize(Entities<Subscriber> afterUi, Entities<Subscriber> beforeUi) {
         if (afterUi.size() == beforeUi.size() +1 )
             return true;
         else return false;
