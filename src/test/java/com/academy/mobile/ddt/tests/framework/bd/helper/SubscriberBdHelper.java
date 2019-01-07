@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
-import static com.academy.util.MatcherAssertExt.assertThat;
+import static com.academy.automation.framework.util.MatcherAssertExt.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class SubscriberBdHelper {

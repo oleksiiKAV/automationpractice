@@ -3,7 +3,7 @@ package com.academy.automationpractice.ddt.framework.helper;
 import com.academy.automationpractice.ddt.framework.page.AccountPage;
 import org.openqa.selenium.WebDriver;
 
-import static com.academy.util.MatcherAssertExt.assertThat;
+import static com.academy.automation.framework.util.MatcherAssertExt.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class VerifyHelper {

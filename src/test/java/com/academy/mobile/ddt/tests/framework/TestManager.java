@@ -1,10 +1,10 @@
 package com.academy.mobile.ddt.tests.framework;
 
+import com.academy.automation.framework.util.PropertyManager;
 import com.academy.mobile.ddt.tests.framework.bd.helper.SubscriberBdHelper;
 import com.academy.mobile.ddt.tests.framework.rest.helper.SubscriberRestHelper;
 import com.academy.mobile.ddt.tests.framework.ui.helper.NavigationUiHelper;
 import com.academy.mobile.ddt.tests.framework.ui.helper.SubscriberUiHelper;
-import com.academy.util.PropertyManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;

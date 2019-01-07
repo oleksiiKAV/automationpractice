@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
-import static com.academy.util.MatcherAssertExt.assertThat;
+import static com.academy.automation.framework.util.MatcherAssertExt.assertThat;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 

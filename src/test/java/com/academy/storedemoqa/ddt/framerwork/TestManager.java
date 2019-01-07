@@ -1,9 +1,9 @@
 package com.academy.storedemoqa.ddt.framerwork;
 
+import com.academy.automation.framework.util.PropertyManager;
 import com.academy.storedemoqa.ddt.framerwork.helper.NavigationHelper;
 import com.academy.storedemoqa.ddt.framerwork.helper.SessionHelper;
 import com.academy.storedemoqa.ddt.framerwork.helper.VerifyHelper;
-import com.academy.util.PropertyManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;

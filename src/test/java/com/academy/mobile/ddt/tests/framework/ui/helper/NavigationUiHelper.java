@@ -1,6 +1,6 @@
 package com.academy.mobile.ddt.tests.framework.ui.helper;
 
-import com.academy.automationpractice.ddt.framework.page.BasePage;
+import com.academy.automation.framework.page.BasePage;
 import com.academy.mobile.ddt.tests.framework.ui.page.HomePage;
 import org.openqa.selenium.WebDriver;
 

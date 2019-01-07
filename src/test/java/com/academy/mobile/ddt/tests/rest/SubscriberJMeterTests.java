@@ -1,6 +1,6 @@
 package com.academy.mobile.ddt.tests.rest;
 
-import com.academy.util.PropertyManager;
+import com.academy.automation.framework.util.PropertyManager;
 import org.apache.jmeter.JMeter;
 import org.apache.jmeter.engine.StandardJMeterEngine;
 import org.apache.jmeter.protocol.http.control.gui.HttpTestSampleGui;
@@ -20,9 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.academy.util.PropertyManager.COMMON;
-import static com.academy.util.PropertyManager.MOBILE;
-
 public class SubscriberJMeterTests {
     private static final Logger LOG = LogManager.getLogger(SubscriberJMeterTests.class);
 
@@ -35,7 +32,7 @@ public class SubscriberJMeterTests {
         jmeter = new StandardJMeterEngine();
 
         // Initialize Properties, logging, locale, etc.
-        String jMeterHome = PropertyManager.from(COMMON).getProperty("jmeter.home");
+        String jMeterHome = PropertyManager.from("common").getProperty("jmeter.home");
         JMeterUtils.loadJMeterProperties( jMeterHome + "/bin/jmeter.properties");
         JMeterUtils.setJMeterHome(jMeterHome);
         JMeterUtils.initLocale();
@@ -53,7 +50,7 @@ public class SubscriberJMeterTests {
 
         // Load existing .jmx Test Plan
         try {
-            File fJmeter = new File(PropertyManager.from(MOBILE).getProperty("jmeter.tests"));
+            File fJmeter = new File(PropertyManager.from("mobile").getProperty("jmeter.tests"));
             SaveService.loadProperties();
             HashTree testPlanTree = SaveService.loadTree(fJmeter);
 
