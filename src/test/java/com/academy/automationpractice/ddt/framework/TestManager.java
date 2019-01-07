@@ -1,11 +1,11 @@
 package com.academy.automationpractice.ddt.framework;
 
-import com.academy.automation.framework.BaseManager;
+import com.academy.automation.framework.BaseUiManager;
 import com.academy.automation.framework.Configuration;
 import com.academy.automation.framework.util.PropertyManager;
 import com.academy.automationpractice.ddt.framework.helper.*;
 
-public class TestManager extends BaseManager {
+public class TestManager extends BaseUiManager {
     private static int IMPLICITLY_WAIT = 30;
 
     private NavigationHelper navigationHelper;
@@ -30,7 +30,7 @@ public class TestManager extends BaseManager {
     }
 
     @Override
-    protected void postInit() {
+    protected void initHelpers() {
         navigationHelper = new NavigationHelper(driver, PropertyManager.from("automation").getProperty("baseurl"));
         sessionHelper = new SessionHelper(driver, PropertyManager.from("automation").getProperty("username"), PropertyManager.from("automation").getProperty("password"));
         accountHelper = new AccountHelper(driver);

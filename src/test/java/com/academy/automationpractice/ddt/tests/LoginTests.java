@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class LoginTests extends BaseTest {
 
     @Test(dataProvider = "authProvider")
-    public void testAuthCorrect(String email, String password, String userNameExpected) throws Exception {
+    public void testAuthCorrect(String userNameExpected) throws Exception {
         manager.goTo().home();
         manager.session().login();
 
@@ -31,11 +31,11 @@ public class LoginTests extends BaseTest {
         assertThat(errMessageActual, equalTo(errorMsgExpected));
     }
 
-    // TODO USERNAME
+    // TODO move user
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {PropertyManager.from("automation").getProperty("username"), PropertyManager.from("automation").getProperty("password"), "OLEG AFANASIEV"}
+                {"OLEG AFANASIEV"}
         };
     }
 

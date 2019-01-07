@@ -1,5 +1,9 @@
 package com.academy.mobile.ddt.tests.framework;
 
+import com.academy.automation.framework.BaseBDManager;
+import com.academy.automation.framework.BaseRestManager;
+import com.academy.automation.framework.BaseUiManager;
+import com.academy.automation.framework.Configuration;
 import com.academy.automation.framework.util.PropertyManager;
 import com.academy.mobile.ddt.tests.framework.bd.helper.SubscriberBdHelper;
 import com.academy.mobile.ddt.tests.framework.rest.helper.SubscriberRestHelper;
@@ -7,14 +11,10 @@ import com.academy.mobile.ddt.tests.framework.ui.helper.NavigationUiHelper;
 import com.academy.mobile.ddt.tests.framework.ui.helper.SubscriberUiHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-public class TestManager {
+public class TestManager  {
     protected static final Logger LOG = LogManager.getLogger(TestManager.class);
 
     private static final String COMMON = "common";
@@ -46,48 +46,29 @@ public class TestManager {
         return bdManager;
     }
 
-    public class UiManager {
-        private final int DEFAULT_WAIT = 10;
-        private boolean uiMode;
-
-        protected WebDriver driver;
+    public class UiManager extends BaseUiManager {
+        private final static int IMPLICITLY_WAIT = 10;
 
         private NavigationUiHelper navigationHelper;
         private SubscriberUiHelper subscriberHelper;
 
-        public void init(String browser) throws IOException {
-            uiMode = PropertyManager.from(MOBILE).getBoolean("ui.mode");
-
-            if (uiMode) {
-                switch (browser) {
-                    case "chrome":
-                        System.setProperty("webdriver.chrome.driver", PropertyManager.from(COMMON).getProperty("chrome.driver"));
-
-                        // start the browser up
-                        driver = new ChromeDriver();
-
-                        break;
-
-                    case "firefox":
-                        System.setProperty("webdriver.gecko.driver", PropertyManager.from(COMMON).getProperty("firefox.driver"));
-                        driver = new FirefoxDriver();
-                        break;
-                }
-
-                driver.manage().timeouts().implicitlyWait(DEFAULT_WAIT, TimeUnit.SECONDS);
-                //        driver.manage().window().maximize();
-            }
-
-            navigationHelper = new NavigationUiHelper(driver, PropertyManager.from(MOBILE).getProperty("baseurl"));
-            navigationHelper.setUiMode(uiMode);
-
-            subscriberHelper = new SubscriberUiHelper(driver);
-            subscriberHelper.setUiMode(uiMode);
+        public UiManager() {
+            super(new Configuration()
+                    .withChromeDriverLocation(PropertyManager.from("common").getProperty("chrome.driver"))
+                    .withGeckoDriverLocation(PropertyManager.from("common").getProperty("gecko.driver"))
+                    .withBaseUrl(PropertyManager.from("mobile").getProperty("baseurl"))
+                    .withImplicitlyWait(IMPLICITLY_WAIT)
+                    .withScreenShotLocation(PropertyManager.from("mobile").getProperty("screenshots"))
+                    .withUiMode(PropertyManager.from("mobile").getBoolean("ui.mode"))
+                    .withBdMode(PropertyManager.from("mobile").getBoolean("bd.mode"))
+                    .withRestMode(PropertyManager.from("mobile").getBoolean("rest.mode"))
+            );
         }
 
-        public void stop() {
-            if (uiMode)
-                driver.quit();
+        @Override
+        protected void initHelpers() {
+            navigationHelper = new NavigationUiHelper(driver, PropertyManager.from("mobile").getProperty("baseurl"));
+            subscriberHelper = new SubscriberUiHelper(driver);
         }
 
         public NavigationUiHelper goTo() {
@@ -97,21 +78,23 @@ public class TestManager {
         public SubscriberUiHelper subscriber() {
             return subscriberHelper;
         }
-
-        public boolean ifOn() {
-            return uiMode;
-        }
     }
 
-    public class RestManager {
-        private boolean restMode;
-
+    public class RestManager extends BaseRestManager {
         private SubscriberRestHelper subscriberHelper;
 
-        public void init() {
-            restMode = PropertyManager.from(MOBILE).getBoolean("rest.mode");
-            subscriberHelper = new SubscriberRestHelper(PropertyManager.from(MOBILE).getProperty("baseurl"));
-            subscriberHelper.setRestMode(restMode);
+        public RestManager() {
+            super(new Configuration()
+                    .withRestMode(PropertyManager.from(MOBILE).getBoolean("rest.mode"))
+                    .withBaseUrl(PropertyManager.from(MOBILE).getProperty("baseurl"))
+                    .withRestPath(PropertyManager.from(MOBILE).getProperty("restpath"))
+            );
+        }
+
+        @Override
+        protected void initHelpers() {
+            subscriberHelper = new SubscriberRestHelper()
+            ;
         }
 
         public SubscriberRestHelper subscriber() {
@@ -119,18 +102,22 @@ public class TestManager {
         }
     }
 
-    public class BdManager {
-        private boolean bdMode;
+    public class BdManager extends BaseBDManager {
 
         private SubscriberBdHelper subscriberHelper;
 
-        public void init() {
-            bdMode = PropertyManager.from(MOBILE).getBoolean("bd.mode");
-            subscriberHelper = new SubscriberBdHelper(
-                    PropertyManager.from(MOBILE).getProperty("jdbc.driver"),
-                    PropertyManager.from(MOBILE).getProperty("jdbc.url")
-                    );
-            subscriberHelper.setBdMode(bdMode);
+        public BdManager() {
+            super(new Configuration()
+                    .withBdMode(PropertyManager.from(MOBILE).getBoolean("bd.mode"))
+                    .withJdbcDriver(PropertyManager.from(MOBILE).getProperty("jdbc.driver"))
+                    .withJdbcUrl(PropertyManager.from(MOBILE).getProperty("jdbc.url"))
+            );
+        }
+
+        @Override
+        protected void initHelpers() {
+            subscriberHelper = new SubscriberBdHelper(jdbcUrl())
+                    .withBdMode(isBdMode());
         }
 
         public SubscriberBdHelper subscriber() {

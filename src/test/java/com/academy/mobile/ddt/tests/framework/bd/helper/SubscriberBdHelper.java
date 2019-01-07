@@ -15,27 +15,21 @@ public class SubscriberBdHelper {
     private static final Logger LOG = LogManager.getLogger(SubscriberBdHelper.class);
     private static final String SQL_SELECT_ALL = "SELECT * FROM subscriber";
 
-    private String jdbcDriver;
     private String jdbcUrl;
 
     private boolean bdMode = false;
 
-    public SubscriberBdHelper(String jdbcDriver, String jdbcUrl) {
-        this.jdbcDriver = jdbcDriver;
+    public SubscriberBdHelper(String jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
-        init();
-    }
-
-    private void init() {
-        try {
-            Class.forName(jdbcDriver);
-        } catch (ClassNotFoundException e) {
-            LOG.error("Error initializing jdbc connection. Details: {}", e.getMessage());
-        }
     }
 
     public void setBdMode(boolean on) {
         bdMode = on;
+    }
+
+    public SubscriberBdHelper withBdMode(boolean on) {
+        this.bdMode = on;
+        return this;
     }
 
     public Entities<Subscriber> all() {
@@ -61,10 +55,17 @@ public class SubscriberBdHelper {
         return subscribers;
     }
 
-    public void verifyEqualTo(Entities<Subscriber> expected) {
-        if (!bdMode)
-            return;
+    public Entities<Subscriber> all(boolean bdMode) {
+        return bdMode ? all() : null;
+    }
 
+    public void verifyEqualTo(Entities<Subscriber> expected) {
         assertThat(all(), equalTo(expected));
+    }
+
+    public void verifyEqualTo(Entities<Subscriber> expected, boolean bdMode) {
+        if (bdMode) {
+            verifyEqualTo(expected);
+        }
     }
 }

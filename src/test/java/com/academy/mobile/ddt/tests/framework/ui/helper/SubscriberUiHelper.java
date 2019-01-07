@@ -9,13 +9,14 @@ import org.openqa.selenium.WebDriver;
 import java.util.List;
 
 import static com.academy.automation.framework.util.MatcherAssertExt.assertThat;
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class SubscriberUiHelper extends BaseUiHelper {
+public class SubscriberUiHelper {
+
+    private WebDriver driver;
 
     public SubscriberUiHelper(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
     }
 
     public Entities<Subscriber> all() {
@@ -40,46 +41,37 @@ public class SubscriberUiHelper extends BaseUiHelper {
 
         return subscribers;
     }
-    private boolean isPresent(Subscriber subscriber) {
-        try {
-            return
-                    given().log().all()
-                            .header("Content-Type", "application/json")
-                            .when()
-                            .get("/subscribers/{id}", subscriber.getId())
-                            .then()
-                            .assertThat()
-                            .statusCode(200)
-                            .and()
-                            .extract()
-                            .body()
-                            .jsonPath()
-                            .getObject(".", Subscriber.class)
-                            .equals(subscriber);
-        } catch (AssertionError err) {
-            return false;
-        }
+
+    public Entities<Subscriber> all(boolean uiMode) {
+        return uiMode ? all() : null;
     }
 
-
     public void verifyEqualTo(Entities<Subscriber> expected) {
-        if (!uiMode)
-            return;
-
         assertThat(all(), equalTo(expected));
     }
 
+    public void verifyEqualTo(Entities<Subscriber> expected, boolean uiMode) {
+        if (uiMode)
+            verifyEqualTo(expected);
+    }
 
-    public boolean verifyBySize(Entities<Subscriber> afterUi, Entities<Subscriber> beforeUi) {
-        if (afterUi.size() == beforeUi.size() +1 )
-            return true;
-        else return false;
+    public void verifyBySize(int actual, int expected) {
+        assertThat(actual, equalTo(expected));
+    }
 
+    public void verifyBySize(int actual, int expected, boolean uiMode) {
+        if (uiMode)
+            verifyBySize(actual, expected);
     }
 
     public void deleteSubscriber(Subscriber subscriberDelete) {
         new SubscriberPage(driver)
                .clickId()
                .clickDelete();
+    }
+
+    public void deleteSubscriber(Subscriber subscriber, boolean uiMode) {
+        if (uiMode)
+            deleteSubscriber(subscriber);
     }
 }

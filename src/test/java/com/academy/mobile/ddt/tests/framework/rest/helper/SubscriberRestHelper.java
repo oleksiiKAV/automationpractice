@@ -14,38 +14,10 @@ import static io.restassured.RestAssured.given;
 
 public class SubscriberRestHelper {
     private static final Logger LOG = LogManager.getLogger(SubscriberRestHelper.class);
-
-    private boolean isOn = false;
-    private String urlRestPart = "/rest/json";
-    private String baseUrl;
-    private int port;
-
-    public SubscriberRestHelper(String url) {
-        parseUrlAndPort(url);
-        init();
-    }
+    private boolean restMode = false;
 
     public void setRestMode(boolean on) {
-        isOn = on;
-    }
-
-    private void parseUrlAndPort(String rawUrl) {
-        try {
-            String[] parts = rawUrl.split(":");
-            baseUrl = parts[0]+":"+parts[1]+urlRestPart;
-            port = Integer.valueOf(parts[2]);
-        } catch (NumberFormatException e) {
-            LOG.error("Error parsing url {}. Details:", rawUrl, e.getMessage());
-        }
-    }
-
-    private void init() {
-        RestAssured.baseURI = baseUrl;
-        RestAssured.port = port;
-
-        config = config()
-                .logConfig(new LogConfig()
-                        .defaultStream(IoBuilder.forLogger(LOG).buildPrintStream()));
+        restMode = on;
     }
 
     public Entities<Subscriber> all() {
