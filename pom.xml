@@ -261,6 +261,15 @@
         <profile>
             <id>build</id>
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                        <filtering>false</filtering>
+                    </resource>
+                </resources>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -271,44 +280,6 @@
                                 <goals>
                                     <goal>test-jar</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.google.code.maven-replacer-plugin</groupId>
-                        <artifactId>replacer</artifactId>
-                        <version>1.5.3</version>
-                        <executions>
-                            <execution>
-                                <id>replace-for-documentation</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>replace</goal>
-                                </goals>
-                                <configuration>
-                                    <preserveDir>true</preserveDir>
-                                    <basedir>${basedir}/data</basedir>
-                                    <outputBasedir>${basedir}</outputBasedir>
-                                    <outputDir>src/site</outputDir>
-                                    <ignoreErrors>true</ignoreErrors>
-                                    <regex>false</regex>
-                                    <delimiters>
-                                        <delimiter>@</delimiter>
-                                    </delimiters>
-                                    <filesToInclude>
-                                        *.bat
-                                    </filesToInclude>
-                                    <replacements>
-                                        <replacement>
-                                            <token>artifact</token>
-                                            <value>${project.artifactId}</value>
-                                        </replacement>
-                                        <replacement>
-                                            <token>version</token>
-                                            <value>${project.version}</value>
-                                        </replacement>
-                                    </replacements>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

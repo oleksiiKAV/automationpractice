@@ -65,6 +65,8 @@
             </includes>
             <excludes>
                 <exclude>log4j2*.properties</exclude>
+                <exclude>automation*.properties</exclude>
+                <exclude>mobile*.properties</exclude>
             </excludes>
         </fileSet>
         <fileSet>
