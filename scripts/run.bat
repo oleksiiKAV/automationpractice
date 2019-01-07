@@ -15,4 +15,4 @@ if defined suiteParam (
 	set suite=%suiteDefault%
 )
 
-java -cp %cp% -Dautomation.cfg=%automation.prop% -Dmobile.cfg=%mobile.prop% -Dcommon.cfg=%common.prop% -DLogj4=%log% %main%  %suite% -d %report.dir%
+java -cp %cp% -Dautomation.cfg=%automation.prop% -Dmobile.cfg=%mobile.prop% -Dcommon.cfg=%common.prop% -Dlog4j.configurationFile=%log% %main%  %suite% -d %report.dir%

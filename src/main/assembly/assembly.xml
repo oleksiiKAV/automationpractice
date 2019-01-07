@@ -63,6 +63,9 @@
             <includes>
                 <include>*.properties</include>
             </includes>
+            <excludes>
+                <exclude>log4j2*.properties</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>.</directory>
@@ -71,7 +74,31 @@
                 <exclude>*/**</exclude>
             </excludes>
         </fileSet>
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>screenshots</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
     </fileSets>
+    <files>
+        <file>
+            <source>src/main/resources/build/log4j2.bld.properties</source>
+            <outputDirectory>cfg</outputDirectory>
+            <destName>log4j2.properties</destName>
+        </file>
+        <file>
+            <source>src/main/resources/build/automation.bld.properties</source>
+            <outputDirectory>cfg</outputDirectory>
+            <destName>automation.properties</destName>
+        </file>
+        <file>
+            <source>src/main/resources/build/mobile.bld.properties</source>
+            <outputDirectory>cfg</outputDirectory>
+            <destName>mobile.properties</destName>
+        </file>
+    </files>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/lib</outputDirectory>
