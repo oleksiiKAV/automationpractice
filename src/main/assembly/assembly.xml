@@ -64,6 +64,13 @@
                 <include>*.properties</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>report</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>

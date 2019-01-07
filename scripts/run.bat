@@ -8,10 +8,11 @@ set log=../cfg/log4j2.properties
 set main=org.testng.TestNG
 set suiteDefault=../suits/testng.xml
 set suiteParam=%1
+set report.dir=../report
 if defined suiteParam (
 	set suite=%suiteParam%
 ) else (
 	set suite=%suiteDefault%
 )
 
-java -cp %cp% -Dautomation.cfg=%automation.prop% -Dmobile.cfg=%mobile.prop% -Dcommon.cfg=%common.prop% -DLogj4=%log% %main%  %suite%
+java -cp %cp% -Dautomation.cfg=%automation.prop% -Dmobile.cfg=%mobile.prop% -Dcommon.cfg=%common.prop% -DLogj4=%log% %main%  %suite% -d %report.dir%
