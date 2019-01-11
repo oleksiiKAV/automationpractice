@@ -11,7 +11,7 @@ setlocal
 goto :EOF
 
 :copyBackup
-    set backupDir=%HOMEDRIVE%%HOMEPATH%\Documents\automation-final-04\backup
+    set backupDir=%HOMEDRIVE%%HOMEPATH%\Documents\automationpractice\backup
     if not exist "%backupDir%" mkdir %backupDir%
     set fNameSuffix=
     call :assignTime fNameSuffix
@@ -39,7 +39,7 @@ goto :EOF
 
 :makeBuild
    echo build
-   set buildDir=%HOMEDRIVE%%HOMEPATH%\Documents\automation-final-04\build
+   set buildDir=%HOMEDRIVE%%HOMEPATH%\Documents\automationpractice\build
 
    :: delete previos build dir if exist
    if not exist "%buildDir%" mkdir %buildDir%
