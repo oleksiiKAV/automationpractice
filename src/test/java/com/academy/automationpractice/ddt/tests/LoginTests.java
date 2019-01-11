@@ -23,7 +23,7 @@ public class LoginTests extends BaseTest {
         manager.session().logout();
     }
 
-    @Test(dataProvider = "incorrectLoginProvider")
+    @Test(dataProvider = "incorrectLoginProvider1")
        public void testAuthIncorrect(String email, String password, String errorMsgExpected) {
         manager.goTo().home();
         manager.session().loginAs(email, password);
@@ -39,7 +39,7 @@ public class LoginTests extends BaseTest {
         };
     }
 
-    @DataProvider(name = "incorrectLoginProvider")
+    @DataProvider(name = "incorrectLoginProvider1")
     public Object[][] provideIncorrectAuthData() {
         String authDataPath = PropertyManager.from("automation").getProperty("auth.incorrect.data");
 
