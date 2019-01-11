@@ -35,7 +35,7 @@ public class LoginTests extends BaseTest {
     @DataProvider(name="authProvider")
     private Object[][] authProvider() {
         return new Object[][]{
-                {"OLEG AFANASIEV"}
+                {"Oleksii kav"}
         };
     }
 
