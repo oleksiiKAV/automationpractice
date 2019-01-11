@@ -1,9 +1,9 @@
 ::echo off
     ::set fName=@artifact@-@version@
-    set fName=java-part-1.0-SNAPSHOT
+    set fName=automation-1.0
     set fExt=.zip
     ::set rootDir=d:\programming\qa\seleniumtest\target
-    set rootDir=%HOMEDRIVE%%HOMEPATH%\.jenkins\workspace\automation-final-04\target
+    set rootDir=%HOMEDRIVE%%HOMEPATH%\.jenkins\workspace\automationpractice\target
     set src=%rootDir%\%fName%%fExt%
 setlocal
     call :copyBackup
